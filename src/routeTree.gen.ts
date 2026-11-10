@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as BranchListRouteImport } from './routes/branch-list'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DownloadRouteImport } from './routes/download'
 import { Route as DownloadAdmitCardRouteImport } from './routes/download-admit-card'
 import { Route as DownloadDocumentRouteImport } from './routes/download-document'
@@ -62,6 +63,11 @@ const BlogsRoute = BlogsRouteImport.update({
 const BranchListRoute = BranchListRouteImport.update({
   id: '/branch-list',
   path: '/branch-list',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DownloadRoute = DownloadRouteImport.update({
@@ -229,6 +235,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRouteWithChildren
   '/blogs': typeof BlogsRouteWithChildren
   '/branch-list': typeof BranchListRoute
+  '/contact': typeof ContactRoute
   '/download': typeof DownloadRoute
   '/download-admit-card': typeof DownloadAdmitCardRoute
   '/download-document': typeof DownloadDocumentRoute
@@ -263,6 +270,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/branch-list': typeof BranchListRoute
+  '/contact': typeof ContactRoute
   '/download': typeof DownloadRoute
   '/download-admit-card': typeof DownloadAdmitCardRoute
   '/download-document': typeof DownloadDocumentRoute
@@ -299,6 +307,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRouteWithChildren
   '/blogs': typeof BlogsRouteWithChildren
   '/branch-list': typeof BranchListRoute
+  '/contact': typeof ContactRoute
   '/download': typeof DownloadRoute
   '/download-admit-card': typeof DownloadAdmitCardRoute
   '/download-document': typeof DownloadDocumentRoute
@@ -337,6 +346,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/blogs'
     | '/branch-list'
+    | '/contact'
     | '/download'
     | '/download-admit-card'
     | '/download-document'
@@ -371,6 +381,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/branch-list'
+    | '/contact'
     | '/download'
     | '/download-admit-card'
     | '/download-document'
@@ -406,6 +417,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/blogs'
     | '/branch-list'
+    | '/contact'
     | '/download'
     | '/download-admit-card'
     | '/download-document'
@@ -443,6 +455,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRouteWithChildren
   BlogsRoute: typeof BlogsRouteWithChildren
   BranchListRoute: typeof BranchListRoute
+  ContactRoute: typeof ContactRoute
   DownloadRoute: typeof DownloadRoute
   DownloadAdmitCardRoute: typeof DownloadAdmitCardRoute
   DownloadDocumentRoute: typeof DownloadDocumentRoute
@@ -484,6 +497,13 @@ declare module '@tanstack/react-router' {
       path: '/branch-list'
       fullPath: '/branch-list'
       preLoaderRoute: typeof BranchListRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/download': {
@@ -774,6 +794,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRouteWithChildren,
   BlogsRoute: BlogsRouteWithChildren,
   BranchListRoute: BranchListRoute,
+  ContactRoute: ContactRoute,
   DownloadRoute: DownloadRoute,
   DownloadAdmitCardRoute: DownloadAdmitCardRoute,
   DownloadDocumentRoute: DownloadDocumentRoute,

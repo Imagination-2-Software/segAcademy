@@ -199,7 +199,7 @@ export const navActions = {
   },
   contact: {
     label: "Contact Us",
-    href: "#contact",
+    href: "/contact",
   },
 };
 
@@ -220,7 +220,7 @@ export const footerLinks = [
   { label: "Courses", href: "/#courses" },
   { label: "Branches", href: "/#branches" },
   { label: "Reviews", href: "/#reviews" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export const stats = [

@@ -328,7 +328,7 @@ export function Hero() {
 
                 {/* Secondary CTA: Talk to an Expert */}
                 <a
-                  href="#contact"
+                  href="/contact"
                   className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#351650] px-8 py-3.5 sm:py-4 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-[#241038] hover:shadow-[0_8px_20px_rgba(53,22,80,0.25)] hover:scale-[1.02] active:scale-[0.99] sm:w-auto"
                 >
                   <span>Talk to an Expert</span>

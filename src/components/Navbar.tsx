@@ -991,7 +991,7 @@ export function Navbar() {
 
           {/* 7. Contact */}
           <a
-            href="/#contact"
+            href="/contact"
             onClick={handleLinkClick}
             className="rounded-lg px-3 py-1.5 transition-colors duration-150 hover:bg-slate-100/70 hover:text-[#351650]"
           >
@@ -1383,7 +1383,7 @@ export function Navbar() {
             {/* Contact */}
             <li className="py-2.5">
               <a
-                href="/#contact"
+                href="/contact"
                 onClick={handleLinkClick}
                 className="flex items-center justify-between rounded-lg px-2 py-1 text-slate-800 hover:text-[#351650]"
               >
