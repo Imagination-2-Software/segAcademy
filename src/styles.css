@@ -1,0 +1,311 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * SEG Academy design system.
+ * Light editorial surface + deep ink premium sections + one teal brand accent.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-sand: var(--sand);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-foreground: var(--ink-foreground);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-gold: var(--gold);
+  --color-gold-strong: var(--gold-strong);
+  --color-gold-soft: var(--gold-soft);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --shadow-card: 0 1px 2px oklch(0.2 0.03 250 / 0.04), 0 12px 32px -18px oklch(0.2 0.03 250 / 0.28);
+  --shadow-lift: 0 2px 4px oklch(0.2 0.03 250 / 0.05), 0 28px 50px -26px oklch(0.2 0.03 250 / 0.35);
+}
+
+:root {
+  --radius: 1.25rem;
+  --background: oklch(0.995 0.003 300);
+  --foreground: oklch(0.23 0.03 300);
+  --sand: oklch(0.972 0.012 305);
+  --ink: oklch(0.28 0.11 305);
+  --ink-soft: oklch(0.33 0.115 305);
+  --ink-foreground: oklch(0.97 0.008 305);
+  /* Logo purple #4C1A72 */
+  --brand: oklch(0.36 0.155 305);
+  --brand-strong: oklch(0.3 0.14 305);
+  --brand-soft: oklch(0.95 0.03 305);
+  --brand-foreground: oklch(0.99 0.005 305);
+  /* Logo orange #F58220 */
+  --gold: oklch(0.72 0.175 52);
+  --gold-strong: oklch(0.66 0.18 42);
+  --gold-soft: oklch(0.8 0.14 62);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.23 0.03 300);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.23 0.03 300);
+  --primary: oklch(0.36 0.155 305);
+  --primary-foreground: oklch(0.99 0.005 305);
+  --secondary: oklch(0.962 0.01 305);
+  --secondary-foreground: oklch(0.3 0.09 305);
+  --muted: oklch(0.966 0.008 305);
+  --muted-foreground: oklch(0.52 0.03 300);
+  --accent: oklch(0.95 0.03 305);
+  --accent-foreground: oklch(0.36 0.155 305);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.99 0.003 250);
+  --border: oklch(0.915 0.012 305);
+  --input: oklch(0.915 0.012 305);
+  --ring: oklch(0.36 0.155 305);
+
+  /* Signature SEG Academy Brand Tokens */
+  --seg-orange: #FF791F;
+  --seg-orange-light: #FFB36B;
+  --seg-orange-deep: #FF5A00;
+  --seg-purple: #35114F;
+  --seg-purple-deep: #240D38;
+  --seg-text-light: #FFFFFF;
+}
+
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes candleFlicker {
+  0%, 100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.animate-float-gentle {
+  animation: floatGentle 5s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+.animate-candle-flicker {
+  animation: candleFlicker 3s ease-in-out infinite;
+}
+
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@utility reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Indian Stock Market Ticker Continuous Marquee */
+@keyframes tickerTapeScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-ticker-tape {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
+  width: max-content !important;
+  flex-shrink: 0 !important;
+  animation: tickerTapeScroll 52s linear infinite !important;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.animate-ticker-tape:hover,
+.group-ticker:hover .animate-ticker-tape,
+[data-ticker-tape]:hover .animate-ticker-tape {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-ticker-tape {
+    animation: none;
+    overflow-x: auto;
+  }
+}
+
+/* Smooth Table of Contents Scrolling & Sticky Header Offset */
+html {
+  scroll-behavior: smooth;
+}
+
+.blog-prose section,
+.blog-prose [id],
+#faqs,
+[data-toc-target] {
+  scroll-margin-top: 130px;
+}
+
+@media (max-width: 768px) {
+  .blog-prose section,
+  .blog-prose [id],
+  #faqs,
+  [data-toc-target] {
+    scroll-margin-top: 115px;
+  }
+}
+
+/* ==========================================================================
+   SEG ACADEMY SIGNATURE AMBIENT GLOW & ORANGE GRADIENT ACCENTS
+   ========================================================================== */
+
+/* Top-Right Diffused Ambient Glow for Dark Purple Backgrounds */
+.seg-ambient-glow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 90% 10%, rgba(255, 119, 35, 0.22) 0%, rgba(255, 119, 35, 0.08) 35%, transparent 70%);
+  z-index: 1;
+}
+
+/* Subtle Ambient Glow for Light / White Cards & Containers */
+.seg-ambient-glow-subtle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 92% 12%, rgba(255, 121, 31, 0.09) 0%, rgba(255, 121, 31, 0.03) 30%, transparent 65%);
+  z-index: 0;
+}
+
+/* Signature Hero Glowing Sphere / Orb */
+.seg-about-hero-glow {
+  pointer-events: none;
+  position: absolute;
+  right: -5rem;
+  top: -5rem;
+  height: 28rem;
+  width: 28rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(255, 121, 31, 0.22) 0%, rgba(255, 121, 31, 0.08) 45%, transparent 70%);
+  filter: blur(48px);
+  z-index: 0;
+}
+
+/* Signature SEG Orange Gradient Heading Accent (for Light Backgrounds) */
+.seg-gradient-heading {
+  background: linear-gradient(90deg, #FFB36B 0%, #FF791F 55%, #FF5A00 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline;
+}
+
+/* Signature SEG Orange Gradient Heading Accent (for Dark Purple Backgrounds) */
+.seg-gradient-heading-light {
+  background: linear-gradient(90deg, #FFFFFF 0%, #FFE9D6 40%, #FF8A24 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline;
+}
+
+/* Solid Brand Orange Accent */
+.seg-orange-text {
+  color: #FF791F;
+}
+
