@@ -90,6 +90,8 @@ export function ContactForm() {
         Math.random() * width,
         Math.random() * height,
         Math.random() * width,
+        Math.random() * height,
+        Math.random() * width,
         Math.random() * height
       );
       ctx.strokeStyle = `rgba(255, 122, 31, ${0.18 + Math.random() * 0.25})`;
