@@ -516,8 +516,15 @@ export function Hero() {
                         className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.01]"
                       />
 
-                      {/* Subtle Dark Vignette for Visual Balance */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/15 pointer-events-none" />
+                      {/* Refined Cinematic Vignette Overlay (Darkened Edges & Corners) */}
+                      <div
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_42%,rgba(0,0,0,0.42)_100%)] shadow-[inset_0_0_50px_rgba(0,0,0,0.35)]"
+                      />
+                      <div
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/15"
+                      />
 
                       {/* Center 3 Minimal iPhone-style Buttons (Ultra-compact & Translucent) */}
                       <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
