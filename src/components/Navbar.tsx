@@ -696,14 +696,14 @@ export function Navbar() {
             </div>
           </div>
 
-          {/* 5. Internship */}
+          {/* 5. Careers */}
           <a
             href="https://www.segacademy.in/page.php?id=TXpZdw=="
             target="_blank"
             rel="noopener noreferrer"
             className="group flex items-center gap-1 rounded-lg px-3 py-1.5 transition-colors duration-150 hover:bg-slate-100/70 hover:text-[#351650]"
           >
-            <span>Internship</span>
+            <span>Careers</span>
             <ExternalLink className="h-3 w-3 text-slate-400 group-hover:text-slate-600" />
           </a>
 
@@ -1236,7 +1236,7 @@ export function Navbar() {
               )}
             </li>
 
-            {/* Internship */}
+            {/* Careers */}
             <li className="py-2.5">
               <a
                 href="https://www.segacademy.in/page.php?id=TXpZdw=="
@@ -1246,7 +1246,7 @@ export function Navbar() {
                 className="flex items-center justify-between rounded-lg px-2 py-1 text-slate-800 hover:text-[#351650]"
               >
                 <div className="flex items-center gap-1.5">
-                  <span>Internship Opportunities</span>
+                  <span>Careers</span>
                   <ExternalLink className="h-3 w-3 text-slate-400" />
                 </div>
                 <ChevronRight className="h-4 w-4 text-slate-400" />
