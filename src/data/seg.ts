@@ -214,7 +214,7 @@ export const navLinks = [
 export const footerLinks = [
   { label: "Home", href: "/#home" },
   { label: "About Us", href: "/about/overview" },
-  { label: "Leadership & Team", href: "/leadership-team" },
+  { label: "Meet Our Faculty", href: "/leadership-team" },
   { label: "Subsidiary Brands", href: "/subsidiary-brands" },
   { label: "Student Zone", href: "/student-zone/registration" },
   { label: "Courses", href: "/#courses" },

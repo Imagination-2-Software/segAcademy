@@ -8,7 +8,7 @@ export function TeamSection() {
     teamMembers.find((m) => m.id === "sandeep-chatterjee")!,
     teamMembers.find((m) => m.id === "ashish-kumar-gupta")!,
     teamMembers.find((m) => m.id === "satyajeet-biswas")!,
-    teamMembers.find((m) => m.id === "arifa-samreen")!,
+    teamMembers.find((m) => m.id === "mohdsahgar-mehdi")!,
   ].filter(Boolean);
 
   return (
@@ -22,7 +22,7 @@ export function TeamSection() {
             Meet the People Behind SEG Academy
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-            SEG Academy is guided by experienced capital market practitioners, senior derivatives analysts, and dedicated student operations professionals committed to practical financial literacy.
+            SEG Academy is guided by experienced capital market practitioners, senior derivatives analysts, and certified equity instructors committed to practical financial literacy.
           </p>
         </Reveal>
 
@@ -40,7 +40,7 @@ export function TeamSection() {
                     loading="lazy"
                   />
                   <span className="absolute bottom-2.5 left-2.5 rounded-md bg-ink/85 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur-xs">
-                    {member.category === "Institutional Leadership" ? "Leadership" : member.category === "Academic Leadership & Faculty" ? "Faculty" : "Operations"}
+                    {member.category === "Institutional Leadership" ? "Leadership" : "Faculty"}
                   </span>
                 </div>
 
@@ -81,11 +81,11 @@ export function TeamSection() {
             href="/leadership-team"
             className="inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-sm font-bold text-white transition-all duration-200 hover:bg-brand-strong hover:scale-105 shadow-md"
           >
-            Meet Our Team
+            Meet Our Faculty
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </a>
           <p className="mt-3 text-xs text-muted-foreground">
-            Explore full faculty profiles, instructor credentials, and team responsibilities
+            Explore full faculty profiles, instructor credentials, and academic mentorship
           </p>
         </Reveal>
       </div>

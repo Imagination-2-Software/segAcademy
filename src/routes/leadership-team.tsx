@@ -19,9 +19,9 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { teamMembers, type TeamMember, type TeamCategory } from "@/data/seg";
 
-const title = "Meet Our Leadership & Team | SEG Academy Varanasi";
+const title = "Meet Our Faculty | SEG Academy Varanasi";
 const description =
-  "Discover the people, expertise and dedication that drive SEG Academy forward. Meet Director Sandeep Chatterjee, lead faculty Ashish Sir, senior mentors, and administration staff.";
+  "Discover the market expertise, instructor credentials and dedication that drive SEG Academy forward. Meet Director Sandeep Chatterjee, lead faculty Ashish Sir, senior derivatives mentors, and technical analysts.";
 
 export const Route = createFileRoute("/leadership-team")({
   head: () => ({
@@ -59,38 +59,35 @@ export function LeadershipTeamPage() {
     };
   }, [selectedMember]);
 
+  // Exclude Administration & Operations from Faculty Directory
+  const facultyMembers = teamMembers.filter(
+    (m) => m.category !== "Administration & Operations"
+  );
+
   const categories: { label: string; value: string; count: number }[] = [
-    { label: "All Members", value: "All", count: teamMembers.length },
+    { label: "All Faculty", value: "All", count: facultyMembers.length },
     {
       label: "Institutional Leadership",
       value: "Institutional Leadership",
-      count: teamMembers.filter((m) => m.category === "Institutional Leadership").length,
+      count: facultyMembers.filter((m) => m.category === "Institutional Leadership").length,
     },
     {
       label: "Academic Leadership & Faculty",
       value: "Academic Leadership & Faculty",
-      count: teamMembers.filter((m) => m.category === "Academic Leadership & Faculty").length,
-    },
-    {
-      label: "Administration & Operations",
-      value: "Administration & Operations",
-      count: teamMembers.filter((m) => m.category === "Administration & Operations").length,
+      count: facultyMembers.filter((m) => m.category === "Academic Leadership & Faculty").length,
     },
   ];
 
   const filteredMembers =
     activeTab === "All"
-      ? teamMembers
-      : teamMembers.filter((m) => m.category === activeTab);
+      ? facultyMembers
+      : facultyMembers.filter((m) => m.category === activeTab);
 
-  const institutionalLeadership = teamMembers.filter(
+  const institutionalLeadership = facultyMembers.filter(
     (m) => m.category === "Institutional Leadership"
   );
-  const academicFaculty = teamMembers.filter(
+  const academicFaculty = facultyMembers.filter(
     (m) => m.category === "Academic Leadership & Faculty"
-  );
-  const administrationOps = teamMembers.filter(
-    (m) => m.category === "Administration & Operations"
   );
 
   return (
@@ -124,16 +121,16 @@ export function LeadershipTeamPage() {
 
             <div className="mt-6 max-w-3xl">
               <span className="rounded-full bg-gold/15 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-gold-strong border border-gold/30">
-                Institutional Directory
+                Faculty Directory
               </span>
               <h1 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
-                Meet Our <span className="seg-gradient-heading-light">Leadership &amp; Team</span>
+                Meet Our <span className="seg-gradient-heading-light">Faculty</span>
               </h1>
               <p className="mt-4 text-lg leading-relaxed text-white/80 sm:text-xl">
-                Discover the people, expertise and dedication that drive SEG Academy forward.
+                Discover the expert mentors, technical analysts, and educators who guide your learning at SEG Academy.
               </p>
               <p className="mt-2 text-sm text-white/60">
-                Our institution is powered by market strategists, certified educators, quantitative analysts, and dedicated student support leaders with verified corporate credentials.
+                Our institution is powered by active market strategists, certified educators, and quantitative analysts with verified institutional trading credentials.
               </p>
             </div>
 
@@ -225,31 +222,6 @@ export function LeadershipTeamPage() {
 
                   <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                     {academicFaculty.map((member) => (
-                      <MemberCard
-                        key={member.id}
-                        member={member}
-                        onSelect={() => setSelectedMember(member)}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Section C: Administration & Operations */}
-                <div>
-                  <div className="border-b border-border pb-4">
-                    <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-bold text-emerald-700 mb-2">
-                      <Briefcase className="h-3.5 w-3.5" /> Category C
-                    </div>
-                    <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">
-                      Administration &amp; <span className="seg-gradient-heading">Operations</span>
-                    </h2>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Human resources, student placement services, campus operations, and helpdesk support.
-                    </p>
-                  </div>
-
-                  <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    {administrationOps.map((member) => (
                       <MemberCard
                         key={member.id}
                         member={member}

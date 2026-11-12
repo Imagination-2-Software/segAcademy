@@ -133,9 +133,9 @@ const aboutData = [
   },
   {
     icon: Users,
-    label: "Leadership & Team",
+    label: "Meet Our Faculty",
     href: "/leadership-team",
-    description: "Meet our core mentors, technical analysts & operations team",
+    description: "Meet our core mentors, technical analysts & academic leadership",
   },
 ];
 
