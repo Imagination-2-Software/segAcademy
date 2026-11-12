@@ -1,9 +1,82 @@
-import { useState } from "react";
-import { ArrowRight, Play, BookOpen, TrendingUp, Award } from "lucide-react";
+import { useState, useRef } from "react";
+import {
+  ArrowRight,
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  Maximize2,
+  BookOpen,
+  TrendingUp,
+  Award,
+} from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 
 export function Hero() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  const handlePlayPause = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!isPlaying) {
+      setIsPlaying(true);
+      setIsPaused(false);
+    } else {
+      const iframe = iframeRef.current;
+      if (iframe && iframe.contentWindow) {
+        if (isPaused) {
+          iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', "*");
+          setIsPaused(false);
+        } else {
+          iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', "*");
+          setIsPaused(true);
+        }
+      }
+    }
+  };
+
+  const handleToggleMute = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const nextMuted = !isMuted;
+    setIsMuted(nextMuted);
+    const iframe = iframeRef.current;
+    if (iframe && iframe.contentWindow) {
+      const func = nextMuted ? "mute" : "unMute";
+      iframe.contentWindow.postMessage(JSON.stringify({ event: "command", func }), "*");
+    }
+  };
+
+  const handleFullscreen = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const container = videoContainerRef.current;
+    if (container) {
+      if (!document.fullscreenElement) {
+        if (container.requestFullscreen) {
+          container.requestFullscreen().catch(() => {});
+        } else if ((container as any).webkitRequestFullscreen) {
+          (container as any).webkitRequestFullscreen();
+        }
+        try {
+          if (screen.orientation && "lock" in screen.orientation) {
+            (screen.orientation as any).lock("landscape").catch(() => {});
+          }
+        } catch {
+          // ignore orientation lock if not supported
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+    }
+    if (!isPlaying) {
+      setIsPlaying(true);
+      setIsPaused(false);
+    }
+  };
 
   return (
     <section
@@ -385,72 +458,109 @@ export function Hero() {
                 />
 
                 {/* 16:9 Custom Video Showcase Container */}
-                <div className="relative aspect-video w-full overflow-hidden rounded-[24px] border border-[#E5DDF0] bg-[#16062b] shadow-[0_24px_60px_-12px_rgba(53,22,80,0.18),0_10px_25px_-5px_rgba(0,0,0,0.06)] transition-all duration-300">
-                  
+                <div
+                  ref={videoContainerRef}
+                  className="group relative aspect-video w-full overflow-hidden rounded-[24px] border border-[#E5DDF0] bg-[#16062b] shadow-[0_24px_60px_-12px_rgba(53,22,80,0.18),0_10px_25px_-5px_rgba(0,0,0,0.06)] transition-all duration-300"
+                >
                   {isPlaying ? (
-                    /* Active Video Player on Click (Autoplay with normal controls) */
-                    <iframe
-                      src="https://www.youtube.com/embed/7OxiQUjzONQ?autoplay=1&rel=0"
-                      title="SEG Academy Stock Market Learning Video"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      allowFullScreen
-                      className="h-full w-full border-0 block"
-                    />
-                  ) : (
-                    /* Custom Interactive Video Preview Card */
-                    <button
-                      type="button"
-                      onClick={() => setIsPlaying(true)}
-                      aria-label="Play SEG Academy Learning Experience Video"
-                      className="group relative h-full w-full block text-left focus:outline-none cursor-pointer select-none"
-                    >
-                      {/* High-Quality Thumbnail Image */}
-                      <img
-                        src="https://img.youtube.com/vi/7OxiQUjzONQ/maxresdefault.jpg"
-                        alt="SEG Academy Stock Market Training Experience"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src =
-                            "https://img.youtube.com/vi/7OxiQUjzONQ/hqdefault.jpg";
-                        }}
-                        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    <>
+                      {/* Active Video Player (Autoplay with YouTube Embed) */}
+                      <iframe
+                        ref={iframeRef}
+                        src={`https://www.youtube.com/embed/7OxiQUjzONQ?autoplay=1&enablejsapi=1&rel=0&playsinline=1&mute=${isMuted ? 1 : 0}`}
+                        title="SEG Academy Stock Market Learning Video"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                        className="h-full w-full border-0 block"
                       />
 
-                      {/* Smooth Dark Gradient Overlay for Contrast & Elegance */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-black/35 transition-opacity duration-300 group-hover:opacity-90" />
+                      {/* iPhone-style Minimal Floating Controls Island (Visible on hover when video is active) */}
+                      <div className="absolute top-3.5 right-3.5 z-20 pointer-events-auto flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-xl border border-white/20 p-1 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <button
+                          type="button"
+                          onClick={handleToggleMute}
+                          aria-label={isMuted ? "Unmute audio" : "Mute audio"}
+                          title={isMuted ? "Unmute" : "Mute"}
+                          className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-white/90 hover:bg-white/25 hover:text-white transition-all cursor-pointer"
+                        >
+                          {isMuted ? <VolumeX className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5" />}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handlePlayPause}
+                          aria-label={isPaused ? "Play video" : "Pause video"}
+                          title={isPaused ? "Play" : "Pause"}
+                          className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-slate-950 hover:bg-white/90 transition-all cursor-pointer"
+                        >
+                          {isPaused ? <Play className="h-3 w-3 fill-slate-950 translate-x-0.5" /> : <Pause className="h-3 w-3 fill-slate-950" />}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleFullscreen}
+                          aria-label="Full screen landscape"
+                          title="Full screen to landscape"
+                          className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-white/90 hover:bg-white/25 hover:text-white transition-all cursor-pointer"
+                        >
+                          <Maximize2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    /* Custom Interactive Video Preview Card with User Thumbnail & iPhone Controls */
+                    <div className="relative h-full w-full">
+                      {/* High-Quality User Thumbnail Image */}
+                      <img
+                        src="/thumbnail.png"
+                        alt="SEG Academy - Know About Us"
+                        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.01]"
+                      />
 
-                      {/* Top Header Badge */}
-                      
+                      {/* Subtle Dark Vignette for Visual Balance */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-black/25 pointer-events-none" />
 
-                      {/* Large Custom Circular Play Button in Center */}
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="relative flex items-center justify-center">
-                          {/* Ambient glow behind play icon */}
-                          <div className="absolute h-20 w-20 sm:h-24 sm:w-24 rounded-full bg-[#FF8A24]/30 blur-xl transition-all duration-300 group-hover:scale-125 group-hover:bg-[#FF8A24]/50" />
-                          
-                          {/* Main Play Circle */}
-                          <div className="relative h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-gradient-to-tr from-[#FF7A00] to-[#FFA842] flex items-center justify-center text-white shadow-[0_10px_35px_rgba(255,122,0,0.55)] ring-4 sm:ring-8 ring-white/35 transition-all duration-300 group-hover:scale-110 group-hover:ring-white/50">
-                            <Play className="h-6 w-6 sm:h-8 sm:w-8 fill-white translate-x-0.5" />
-                          </div>
+                      {/* Center 3 Minimal iPhone-style Buttons */}
+                      <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+                        <div className="pointer-events-auto flex items-center gap-2 sm:gap-2.5 rounded-full bg-black/45 backdrop-blur-xl border border-white/25 p-1.5 sm:p-2 shadow-[0_12px_36px_rgba(0,0,0,0.55)] transition-all duration-300 hover:bg-black/60 hover:border-white/35 hover:scale-[1.03]">
+                          {/* 1. Mute / Unmute Button */}
+                          <button
+                            type="button"
+                            onClick={handleToggleMute}
+                            aria-label={isMuted ? "Unmute audio" : "Mute audio"}
+                            title={isMuted ? "Unmute" : "Mute"}
+                            className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-white/10 text-white/90 hover:bg-white/25 hover:text-white transition-all active:scale-95 cursor-pointer"
+                          >
+                            {isMuted ? (
+                              <VolumeX className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
+                            ) : (
+                              <Volume2 className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
+                            )}
+                          </button>
+
+                          {/* 2. Play / Pause Hero Button (Sleek Apple Crisp White Design) */}
+                          <button
+                            type="button"
+                            onClick={handlePlayPause}
+                            aria-label="Play video"
+                            title="Play video"
+                            className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white text-slate-950 shadow-[0_4px_16px_rgba(0,0,0,0.3)] ring-2 ring-white/60 hover:bg-white/95 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                          >
+                            <Play className="h-4.5 w-4.5 sm:h-5 sm:w-5 fill-slate-950 translate-x-0.5" />
+                          </button>
+
+                          {/* 3. Full Screen to Landscape Button */}
+                          <button
+                            type="button"
+                            onClick={handleFullscreen}
+                            aria-label="Full screen landscape"
+                            title="Full screen to landscape"
+                            className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-white/10 text-white/90 hover:bg-white/25 hover:text-white transition-all active:scale-95 cursor-pointer"
+                          >
+                            <Maximize2 className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
+                          </button>
                         </div>
                       </div>
-
-                      {/* Bottom Title & Supporting Caption */}
-                      <div className="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5 flex items-end justify-between gap-4">
-                        <div className="min-w-0">
-                          <p className="text-sm sm:text-base font-bold text-white leading-snug drop-shadow-sm">
-                            A Glimpse Into Our Learning Experience
-                          </p>
-                          <p className="text-[11px] sm:text-xs text-white/80 mt-0.5 truncate">
-                            Live Market Practical Training & Mentorship
-                          </p>
-                        </div>
-                        <div className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 px-3 py-1 text-[11px] font-bold text-white shrink-0 group-hover:bg-white group-hover:text-black transition-colors">
-                          <span>Watch Video</span>
-                          <ArrowRight className="h-3 w-3" />
-                        </div>
-                      </div>
-                    </button>
+                    </div>
                   )}
                 </div>
               </div>
