@@ -169,15 +169,27 @@ export function LeadershipTeamPage() {
                   </p>
                 </div>
 
-                <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                  {filteredMembers.map((member) => (
-                    <MemberCard
-                      key={member.id}
-                      member={member}
-                      onSelect={() => setSelectedMember(member)}
-                    />
-                  ))}
-                </div>
+                {activeTab === "Institutional Leadership" ? (
+                  <div className="mt-8">
+                    {filteredMembers.map((member) => (
+                      <FounderLeaderCard
+                        key={member.id}
+                        member={member}
+                        onSelect={() => setSelectedMember(member)}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    {filteredMembers.map((member) => (
+                      <MemberCard
+                        key={member.id}
+                        member={member}
+                        onSelect={() => setSelectedMember(member)}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             ) : (
               <>
@@ -195,9 +207,9 @@ export function LeadershipTeamPage() {
                     </p>
                   </div>
 
-                  <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="mt-8">
                     {institutionalLeadership.map((member) => (
-                      <MemberCard
+                      <FounderLeaderCard
                         key={member.id}
                         member={member}
                         onSelect={() => setSelectedMember(member)}
@@ -489,6 +501,159 @@ function MemberCard({
           ) : (
             <span className="text-[11px] text-muted-foreground/60 italic">Verified Staff</span>
           )}
+        </div>
+      </div>
+    </article>
+  );
+}
+
+// Sub-component: Founder & Director Featured Widescreen Card (16:9 layout)
+function FounderLeaderCard({
+  member,
+  onSelect,
+}: {
+  member: TeamMember;
+  onSelect: () => void;
+}) {
+  return (
+    <article className="group overflow-hidden rounded-3xl border border-gold/40 bg-card shadow-card transition-all duration-300 hover:border-gold hover:shadow-lift">
+      <div className="grid grid-cols-1 md:grid-cols-12 items-stretch">
+        {/* Left Column: Founder Photo */}
+        <div className="relative md:col-span-5 lg:col-span-4 bg-gradient-to-br from-sand/90 via-sand/40 to-sand/80 p-5 sm:p-7 flex flex-col justify-center items-center border-b md:border-b-0 md:border-r border-border/60">
+          <div className="relative aspect-[4/5] w-full max-w-[340px] overflow-hidden rounded-2xl bg-black/10 shadow-md">
+            <img
+              src={member.image}
+              alt={`${member.name} - ${member.role} at SEG Academy`}
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              loading="lazy"
+            />
+            <div className="absolute top-3 left-3">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-gold/95 px-3 py-1 text-xs font-bold text-ink shadow-sm backdrop-blur-xs">
+                <Award className="h-3.5 w-3.5 text-ink" /> Founder &amp; Director
+              </span>
+            </div>
+            <span className="absolute bottom-3 left-3 rounded-md bg-ink/90 px-3 py-1 text-xs font-semibold text-white backdrop-blur-xs">
+              {member.experience.split(" ")[0]} Exp
+            </span>
+          </div>
+        </div>
+
+        {/* Right Column: All Founder Details */}
+        <div className="flex flex-1 flex-col justify-between p-6 sm:p-8 md:col-span-7 lg:col-span-8">
+          <div>
+            {/* Header tags */}
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-gold/15 px-3 py-1 text-xs font-bold text-gold-strong">
+                  <Award className="h-3.5 w-3.5" /> Institutional Leadership
+                </span>
+                <span className="inline-flex rounded-full bg-accent px-3 py-1 text-xs font-bold text-accent-foreground">
+                  Founder &amp; Director
+                </span>
+              </div>
+              {member.credentials && member.credentials.length > 0 && (
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {member.credentials.map((cred) => (
+                    <span
+                      key={cred}
+                      className="text-xs font-bold text-gold-strong bg-gold/10 px-2.5 py-0.5 rounded-md"
+                    >
+                      {cred}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Title & Designations */}
+            <h3 className="mt-4 font-display text-2xl sm:text-3xl font-bold text-ink">
+              {member.name}
+            </h3>
+            <p className="mt-1 text-sm font-semibold text-brand">
+              {member.designation || member.role}
+            </p>
+            <p className="mt-0.5 text-xs text-muted-foreground">{member.department}</p>
+
+            {/* Bio Description */}
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground/90">
+              {member.bio}
+            </p>
+
+            {/* Areas of Expertise Tags */}
+            {member.expertise && (
+              <div className="mt-4 flex flex-wrap gap-2">
+                {member.expertise.map((exp) => (
+                  <span
+                    key={exp}
+                    className="rounded-lg bg-sand/80 px-2.5 py-1 text-xs font-medium text-ink/80 border border-border/50"
+                  >
+                    {exp}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {/* Two-Column Details Grid */}
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {/* What I Do at SEG Academy Preview */}
+              <div className="rounded-xl bg-sand/50 p-4 border border-border/60">
+                <p className="text-xs font-bold uppercase tracking-wider text-ink/80 flex items-center gap-1.5">
+                  <Briefcase className="h-3.5 w-3.5 text-brand" /> What I Do at SEG Academy
+                </p>
+                <ul className="mt-2.5 space-y-1.5 text-xs text-muted-foreground">
+                  {member.responsibilities.slice(0, 3).map((resp, i) => (
+                    <li key={i} className="flex items-start gap-1.5">
+                      <span className="h-1.5 w-1.5 rounded-full bg-brand mt-1.5 shrink-0" />
+                      <span>{resp}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Corporate Experience / Founder Quote Card */}
+              <div className="rounded-xl border border-gold/30 bg-gold/5 p-4 flex flex-col justify-between">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider text-gold-strong flex items-center gap-1.5">
+                    <Quote className="h-3.5 w-3.5 text-gold-strong" /> Leadership Vision
+                  </p>
+                  <p className="mt-2 text-xs italic text-ink/85 leading-relaxed">
+                    &ldquo;{member.employeeTestimonial.quote}&rdquo;
+                  </p>
+                </div>
+                <div className="mt-3 pt-2 border-t border-gold/20 flex items-center justify-between text-[11px] text-muted-foreground">
+                  <span>Theme: {member.employeeTestimonial.focus}</span>
+                  <span className="text-emerald-700 font-semibold flex items-center gap-1">
+                    <CheckCircle2 className="h-3 w-3" /> Founder Message
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Actions */}
+          <div className="mt-6 flex flex-wrap items-center justify-between border-t border-border pt-4 gap-3">
+            <button
+              type="button"
+              onClick={onSelect}
+              className="inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:text-brand-strong transition-colors cursor-pointer"
+            >
+              View Full Leadership Profile →
+            </button>
+
+            {member.linkedin ? (
+              <a
+                href={member.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-1.5 text-xs font-semibold text-[#0A66C2] hover:bg-sand transition-colors"
+                aria-label={`${member.name} LinkedIn profile`}
+              >
+                <Linkedin className="h-4 w-4" /> Connect on LinkedIn
+              </a>
+            ) : (
+              <span className="text-xs text-muted-foreground/70 italic">Verified Leadership</span>
+            )}
+          </div>
         </div>
       </div>
     </article>
