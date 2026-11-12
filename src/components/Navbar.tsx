@@ -705,16 +705,7 @@ export function Navbar() {
             </div>
           </div>
 
-          {/* 5. Careers (Opens WhatsApp Careers Application Modal) */}
-          <button
-            type="button"
-            onClick={() => setIsCareersModalOpen(true)}
-            className="group flex items-center gap-1 rounded-lg px-3 py-1.5 transition-colors duration-150 hover:bg-slate-100/70 hover:text-[#351650] cursor-pointer"
-          >
-            <span>Careers</span>
-          </button>
-
-          {/* 6. More Dropdown ▼ */}
+          {/* 5. More Dropdown ▼ */}
           <div
             className="relative"
             onMouseEnter={() => handleDropdownEnter("more")}
@@ -996,6 +987,15 @@ export function Navbar() {
             </div>
           </div>
 
+          {/* 6. Careers (Opens WhatsApp Careers Application Modal) */}
+          <button
+            type="button"
+            onClick={() => setIsCareersModalOpen(true)}
+            className="group flex items-center gap-1 rounded-lg px-3 py-1.5 transition-colors duration-150 hover:bg-slate-100/70 hover:text-[#351650] cursor-pointer"
+          >
+            <span>Careers</span>
+          </button>
+
           {/* 7. Contact */}
           <a
             href="/contact"
@@ -1243,24 +1243,6 @@ export function Navbar() {
               )}
             </li>
 
-            {/* Careers (Opens WhatsApp Careers Application Modal) */}
-            <li className="py-2.5">
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileOpen(false);
-                  setIsCareersModalOpen(true);
-                }}
-                className="flex w-full items-center justify-between rounded-lg px-2 py-1 text-slate-800 hover:text-[#351650] text-left cursor-pointer"
-              >
-                <div className="flex items-center gap-1.5">
-                  <Briefcase className="h-4 w-4 text-[#FF8A24]" />
-                  <span>Careers</span>
-                </div>
-                <ChevronRight className="h-4 w-4 text-slate-400" />
-              </button>
-            </li>
-
             {/* More Accordion */}
             <li className="py-2.5">
               <button
@@ -1386,6 +1368,24 @@ export function Navbar() {
                   </a>
                 </div>
               )}
+            </li>
+
+            {/* Careers (Opens WhatsApp Careers Application Modal) */}
+            <li className="py-2.5">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileOpen(false);
+                  setIsCareersModalOpen(true);
+                }}
+                className="flex w-full items-center justify-between rounded-lg px-2 py-1 text-slate-800 hover:text-[#351650] text-left cursor-pointer"
+              >
+                <div className="flex items-center gap-1.5">
+                  <Briefcase className="h-4 w-4 text-[#FF8A24]" />
+                  <span>Careers</span>
+                </div>
+                <ChevronRight className="h-4 w-4 text-slate-400" />
+              </button>
             </li>
 
             {/* Contact */}
