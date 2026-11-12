@@ -517,35 +517,35 @@ export function Hero() {
                       />
 
                       {/* Subtle Dark Vignette for Visual Balance */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-black/25 pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/15 pointer-events-none" />
 
-                      {/* Center 3 Minimal iPhone-style Buttons */}
+                      {/* Center 3 Minimal iPhone-style Buttons (Ultra-compact & Translucent) */}
                       <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-                        <div className="pointer-events-auto flex items-center gap-2 sm:gap-2.5 rounded-full bg-black/45 backdrop-blur-xl border border-white/25 p-1.5 sm:p-2 shadow-[0_12px_36px_rgba(0,0,0,0.55)] transition-all duration-300 hover:bg-black/60 hover:border-white/35 hover:scale-[1.03]">
+                        <div className="pointer-events-auto flex items-center gap-1.5 sm:gap-2 rounded-full bg-black/25 hover:bg-black/40 backdrop-blur-md border border-white/20 p-1 sm:p-1.5 shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition-all duration-300 hover:border-white/30 hover:scale-[1.02]">
                           {/* 1. Mute / Unmute Button */}
                           <button
                             type="button"
                             onClick={handleToggleMute}
                             aria-label={isMuted ? "Unmute audio" : "Mute audio"}
                             title={isMuted ? "Unmute" : "Mute"}
-                            className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-white/10 text-white/90 hover:bg-white/25 hover:text-white transition-all active:scale-95 cursor-pointer"
+                            className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white/10 text-white/90 hover:bg-white/25 hover:text-white transition-all active:scale-95 cursor-pointer"
                           >
                             {isMuted ? (
-                              <VolumeX className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
+                              <VolumeX className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                             ) : (
-                              <Volume2 className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
+                              <Volume2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                             )}
                           </button>
 
-                          {/* 2. Play / Pause Hero Button (Sleek Apple Crisp White Design) */}
+                          {/* 2. Play / Pause Hero Button (Compact Apple-style Frosted White) */}
                           <button
                             type="button"
                             onClick={handlePlayPause}
                             aria-label="Play video"
                             title="Play video"
-                            className="flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white text-slate-950 shadow-[0_4px_16px_rgba(0,0,0,0.3)] ring-2 ring-white/60 hover:bg-white/95 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                            className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/85 hover:bg-white text-slate-900 shadow-[0_2px_10px_rgba(0,0,0,0.25)] ring-1.5 ring-white/50 hover:scale-105 active:scale-95 transition-all cursor-pointer"
                           >
-                            <Play className="h-4.5 w-4.5 sm:h-5 sm:w-5 fill-slate-950 translate-x-0.5" />
+                            <Play className="h-3.5 w-3.5 sm:h-4 sm:w-4 fill-slate-900 translate-x-0.5" />
                           </button>
 
                           {/* 3. Full Screen to Landscape Button */}
@@ -554,9 +554,9 @@ export function Hero() {
                             onClick={handleFullscreen}
                             aria-label="Full screen landscape"
                             title="Full screen to landscape"
-                            className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-white/10 text-white/90 hover:bg-white/25 hover:text-white transition-all active:scale-95 cursor-pointer"
+                            className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white/10 text-white/90 hover:bg-white/25 hover:text-white transition-all active:scale-95 cursor-pointer"
                           >
-                            <Maximize2 className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
+                            <Maximize2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                           </button>
                         </div>
                       </div>
