@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from "react";
 import {
   BookOpen,
   GraduationCap,
@@ -13,12 +14,24 @@ import {
   Mail,
   Clock,
   ExternalLink,
+  ChevronLeft,
+  ChevronRight,
+  TrendingUp,
+  Globe,
+  Sparkles,
+  Building2,
 } from "lucide-react";
 import marketInterface from "@/assets/market-interface.jpg";
 import mentor from "@/assets/mentor.jpg";
 import learningJourney from "@/assets/learning-journey.jpg";
 import academyExterior from "@/assets/academy-exterior.jpg";
 import academyInterior from "@/assets/academy-interior.jpg";
+import heroClassroom from "@/assets/hero-classroom.jpg";
+import courseHedging from "@/assets/course-hedging.jpg";
+import indianStockMarket from "@/assets/blogs/indian-stock-market-cat.jpg";
+import globalStockMarket from "@/assets/blogs/global-stock-market-cat.jpg";
+import howStockMarketWorks from "@/assets/blogs/how-stock-market-works.jpg";
+import oneLakhPortfolio from "@/assets/blogs/one-lakh-portfolio.jpg";
 import {
   accreditations,
   brand,
@@ -190,12 +203,172 @@ export function LearningExperience() {
   );
 }
 
+const learningAreasDetailed = [
+  {
+    title: "Equity Markets",
+    tag: "Cash & Equities",
+    body: "Cash segments, swing setups, and long-term portfolio selection.",
+    image: indianStockMarket,
+    icon: LineChart,
+  },
+  {
+    title: "Futures & Derivatives",
+    tag: "F&O Derivatives",
+    body: "Leverage mechanics, margin rules, and contract roll-overs.",
+    image: marketInterface,
+    icon: TrendingUp,
+  },
+  {
+    title: "Options Strategies",
+    tag: "Hedging & Greeks",
+    body: "Buying vs selling, Greeks management, and multi-leg delta-neutral spreads.",
+    image: courseHedging,
+    icon: ShieldCheck,
+  },
+  {
+    title: "Forex & Global Markets",
+    tag: "Global Macro",
+    body: "Currency pairs, global macro indicators, and commodity behavior.",
+    image: globalStockMarket,
+    icon: Globe,
+  },
+  {
+    title: "Smart Money Concepts",
+    tag: "Smart Money Logic",
+    body: "Identifying institutional liquidity, order blocks, and market structures.",
+    image: howStockMarketWorks,
+    icon: Sparkles,
+  },
+  {
+    title: "Tally GST & Finance",
+    tag: "Accounting & GST",
+    body: "Financial accounting, GST compliance, and corporate financial workflows.",
+    image: academyInterior,
+    icon: Building2,
+  },
+  {
+    title: "University Skill Add-ons",
+    tag: "University Add-ons",
+    body: "NEP-aligned credit courses conducted for top degree colleges.",
+    image: heroClassroom,
+    icon: GraduationCap,
+  },
+  {
+    title: "Capital Protection",
+    tag: "Risk & Capital",
+    body: "Discipline systems, position sizing calculators, and drawdown control.",
+    image: oneLakhPortfolio,
+    icon: Award,
+  },
+];
+
 export function LearningAreas() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(3);
+  const [cardStep, setCardStep] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const isAnimatingRef = useRef(false);
+
+  // Touch Swipe Handlers for Mobile
+  const touchStartX = useRef<number | null>(null);
+  const touchDeltaX = useRef<number>(0);
+
+  const updateDimensions = () => {
+    if (!viewportRef.current) return;
+    const width = viewportRef.current.clientWidth;
+    let count = 1;
+    if (width >= 1024) {
+      count = 3;
+    } else if (width >= 640) {
+      count = 2;
+    }
+    setVisibleCount(count);
+
+    const gap = 24; // gap-6 is 24px
+    const computedCardWidth = (width - gap * (count - 1)) / count;
+    setCardStep(computedCardWidth + gap);
+
+    const maxIdx = Math.max(0, learningAreasDetailed.length - count);
+    setCurrentIndex((prev) => Math.min(prev, maxIdx));
+  };
+
+  useEffect(() => {
+    updateDimensions();
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, []);
+
+  const maxIndex = Math.max(0, learningAreasDetailed.length - visibleCount);
+
+  // 3-second automatic moving carousel with pause
+  useEffect(() => {
+    if (isHovered || maxIndex <= 0) return;
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [isHovered, maxIndex]);
+
+  const handlePrev = () => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
+    setTimeout(() => {
+      isAnimatingRef.current = false;
+    }, 450);
+  };
+
+  const handleNext = () => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    setTimeout(() => {
+      isAnimatingRef.current = false;
+    }, 450);
+  };
+
+  const goToSlide = (idx: number) => {
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
+    setCurrentIndex(Math.min(Math.max(0, idx), maxIndex));
+    setTimeout(() => {
+      isAnimatingRef.current = false;
+    }, 450);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchDeltaX.current = 0;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    touchDeltaX.current = e.touches[0].clientX - touchStartX.current;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null) return;
+    const swipeThreshold = 45;
+    if (touchDeltaX.current < -swipeThreshold) {
+      handleNext();
+    } else if (touchDeltaX.current > swipeThreshold) {
+      handlePrev();
+    }
+    touchStartX.current = null;
+    touchDeltaX.current = 0;
+  };
+
+  const translateX = currentIndex * cardStep;
+
   return (
-    <section id="services" className="py-20 lg:py-28">
+    <section id="services" className="py-20 lg:py-28 overflow-hidden bg-sand/30">
       <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
         <Reveal className="max-w-2xl">
-          <h2 className="font-display text-3xl font-extrabold leading-tight text-ink sm:text-5xl">
+          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-brand">
+            Multi-Market Curricula
+          </span>
+          <h2 className="mt-2 font-display text-3xl font-extrabold leading-tight text-ink sm:text-5xl">
             Understand More Than Just the Charts
           </h2>
           <p className="mt-4 text-muted-foreground sm:text-lg">
@@ -204,14 +377,116 @@ export function LearningAreas() {
           </p>
         </Reveal>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {learningAreas.map((a, i) => (
-            <Reveal key={a.title} delay={i * 50} className="h-full">
-              <div className="h-full rounded-3xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-card">
-                <h3 className="font-display text-lg font-bold text-ink">{a.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{a.body}</p>
-              </div>
-            </Reveal>
+        {/* Carousel Container with Left and Right Moving Arrow Buttons */}
+        <div
+          className="relative mt-12 sm:mt-16 px-3 sm:px-12 lg:px-14"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          {/* Left Arrow Moving Button */}
+          <button
+            type="button"
+            onClick={handlePrev}
+            aria-label="Previous learning area"
+            className="group absolute -left-2 sm:-left-3 lg:-left-4 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-border bg-card/95 text-ink shadow-lift backdrop-blur-md transition-all duration-300 hover:border-gold hover:bg-gold hover:text-ink hover:scale-105 active:scale-95 cursor-pointer"
+          >
+            <ChevronLeft className="h-5 w-5 stroke-[2.2] transition-transform duration-200 group-hover:-translate-x-0.5" />
+          </button>
+
+          {/* Smooth Sliding Viewport */}
+          <div
+            ref={viewportRef}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            className="overflow-hidden py-4 px-1"
+          >
+            <div
+              style={{
+                transform: `translate3d(-${translateX}px, 0, 0)`,
+                transition: "transform 600ms cubic-bezier(0.22, 1, 0.36, 1)",
+              }}
+              className="flex gap-6 will-change-transform"
+            >
+              {learningAreasDetailed.map((area) => {
+                const IconComponent = area.icon;
+                return (
+                  <div
+                    key={area.title}
+                    className="w-full shrink-0 sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+                  >
+                    <article className="group relative flex h-full flex-col items-center justify-between text-center overflow-hidden rounded-3xl border border-border bg-card p-6 sm:p-7 shadow-card transition-all duration-500 hover:-translate-y-1.5 hover:border-gold/50 hover:shadow-lift">
+                      {/* Ambient card top border glow on hover */}
+                      <div className="pointer-events-none absolute -inset-px rounded-3xl bg-gradient-to-b from-gold/10 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+                      {/* Top Domain Badge */}
+                      <div className="relative z-10 flex items-center gap-1.5 rounded-full bg-sand/80 px-3 py-1 text-[11px] font-bold text-brand uppercase tracking-wider">
+                        <IconComponent className="h-3.5 w-3.5 text-gold-strong" />
+                        <span>{area.tag}</span>
+                      </div>
+
+                      {/* Middle Content Section */}
+                      <div className="relative z-10 my-4 flex flex-col items-center w-full">
+                        {/* 1. Card Name in Middle */}
+                        <h3 className="font-display text-xl sm:text-2xl font-bold text-ink transition-colors group-hover:text-brand">
+                          {area.title}
+                        </h3>
+
+                        {/* 2. Image Related to It in Middle */}
+                        <div className="relative my-4 aspect-[16/10] w-full max-w-[280px] overflow-hidden rounded-2xl bg-black/10 border border-border/60 shadow-sm transition-transform duration-500 group-hover:scale-[1.03]">
+                          <img
+                            src={area.image}
+                            alt={`${area.title} at SEG Academy`}
+                            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+                            loading="lazy"
+                          />
+                          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
+                        </div>
+
+                        {/* 3. Text Related to It */}
+                        <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground px-2">
+                          {area.body}
+                        </p>
+                      </div>
+
+                      {/* Bottom Footer Accent */}
+                      <div className="relative z-10 pt-3 border-t border-border/50 w-full flex items-center justify-center">
+                        <span className="text-[11px] font-semibold text-brand/80 group-hover:text-brand transition-colors flex items-center gap-1">
+                          Core Practical Domain <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                        </span>
+                      </div>
+                    </article>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Right Arrow Moving Button */}
+          <button
+            type="button"
+            onClick={handleNext}
+            aria-label="Next learning area"
+            className="group absolute -right-2 sm:-right-3 lg:-right-4 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-border bg-card/95 text-ink shadow-lift backdrop-blur-md transition-all duration-300 hover:border-gold hover:bg-gold hover:text-ink hover:scale-105 active:scale-95 cursor-pointer"
+          >
+            <ChevronRight className="h-5 w-5 stroke-[2.2] transition-transform duration-200 group-hover:translate-x-0.5" />
+          </button>
+        </div>
+
+        {/* Carousel Indicator Dots */}
+        <div className="mt-8 flex items-center justify-center gap-2">
+          {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => goToSlide(idx)}
+              aria-label={`Go to slide ${idx + 1}`}
+              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                currentIndex === idx
+                  ? "w-8 bg-brand"
+                  : "w-2.5 bg-border hover:bg-muted-foreground/40"
+              }`}
+            />
           ))}
         </div>
       </div>
