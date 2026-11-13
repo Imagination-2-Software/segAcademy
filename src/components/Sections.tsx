@@ -404,27 +404,10 @@ export function LearningAreas() {
           </div>
         </div>
 
-        {/* Bottom Controls Bar: Indicator Dots on Left + Arrow Moving Buttons on Right Side */}
+        {/* Bottom Controls Bar: Arrow Moving Buttons on Left + Indicator Dots on Right Side */}
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          {/* Carousel Indicator Dots */}
-          <div className="flex items-center gap-2">
-            {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => goToSlide(idx)}
-                aria-label={`Go to slide ${idx + 1}`}
-                className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                  currentIndex === idx
-                    ? "w-8 bg-brand"
-                    : "w-2.5 bg-border hover:bg-muted-foreground/40"
-                }`}
-              />
-            ))}
-          </div>
-
-          {/* Bottom Right Arrow Moving Buttons */}
-          <div className="flex items-center gap-3 self-end sm:self-auto">
+          {/* Arrow Moving Buttons on Left Side */}
+          <div className="flex items-center gap-3 self-start sm:self-auto">
             <button
               type="button"
               onClick={handlePrev}
@@ -441,6 +424,23 @@ export function LearningAreas() {
             >
               <ChevronRight className="h-5 w-5 stroke-[2.2] transition-transform duration-200 group-hover:translate-x-0.5" />
             </button>
+          </div>
+
+          {/* Carousel Indicator Dots on Right Side */}
+          <div className="flex items-center gap-2 self-end sm:self-auto">
+            {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => goToSlide(idx)}
+                aria-label={`Go to slide ${idx + 1}`}
+                className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                  currentIndex === idx
+                    ? "w-8 bg-brand"
+                    : "w-2.5 bg-border hover:bg-muted-foreground/40"
+                }`}
+              />
+            ))}
           </div>
         </div>
       </div>
