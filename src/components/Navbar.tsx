@@ -46,8 +46,8 @@ export function Logo({
       <img
         src="/SEGAcademy%20Training%20Workshop%20Logo.png"
         alt="SEG Academy"
-        className={`h-10 sm:h-12 md:h-[50px] w-auto object-contain shrink-0 transition-opacity hover:opacity-90 drop-shadow-xs ${
-          !dark ? "rounded-xl bg-white/95 p-1.5 shadow-sm" : ""
+        className={`h-11 sm:h-13 md:h-[54px] lg:h-[56px] w-auto max-w-[210px] sm:max-w-[250px] md:max-w-[280px] object-contain shrink-0 transition-all hover:opacity-95 drop-shadow-xs ${
+          !dark ? "rounded-xl bg-white/95 p-2 shadow-sm" : ""
         }`}
       />
     </a>
