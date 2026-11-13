@@ -83,9 +83,7 @@ export function MarketTickerBar() {
       </div>
 
       {/* 4. Small, Unobtrusive Compliance Disclosure */}
-      <div className="hidden lg:flex items-center shrink-0 h-full px-3 bg-white border-l border-slate-200 text-slate-400 z-20 text-[9.5px] font-semibold tracking-wider uppercase select-none">
-        30D Delayed
-      </div>
+      
     </div>
   );
 }
