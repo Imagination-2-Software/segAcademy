@@ -208,6 +208,30 @@
   animation-play-state: paused !important;
 }
 
+/* Student Stories Continuous Marquee (Right to Left, Pause on Hover) */
+@keyframes reviewsMarquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-reviews-marquee {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  width: max-content !important;
+  animation: reviewsMarquee 68s linear infinite !important;
+  will-change: transform;
+}
+
+.reviews-marquee-container:hover .animate-reviews-marquee,
+.animate-reviews-marquee:hover {
+  animation-play-state: paused !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -217,7 +241,8 @@
     transform: none;
     transition: none;
   }
-  .animate-ticker-tape {
+  .animate-ticker-tape,
+  .animate-reviews-marquee {
     animation: none;
     overflow-x: auto;
   }

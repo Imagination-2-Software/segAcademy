@@ -21,7 +21,7 @@ export const brand = {
   secondaryEmail: "info@segacademy.in",
   city: "Varanasi, Uttar Pradesh",
   businessHours: "Monday – Saturday: 9:00 AM – 7:00 PM (Sunday Closed)",
-  googleShareLink: "https://share.google/5j4DTAu3AHzNH4CQ4",
+  googleShareLink: "https://share.google/GtFbOL6B4c3gtFOed",
   cin: "U80902WB2021PTC247995",
   establishmentYear: "2017",
   incorporationDate: "2021",
@@ -65,7 +65,7 @@ export const accreditations = [
 export const rating = {
   score: "4.9",
   reviews: 508,
-  googleMapsUrl: "https://share.google/5j4DTAu3AHzNH4CQ4",
+  googleMapsUrl: "https://share.google/GtFbOL6B4c3gtFOed",
 };
 
 export type SubNavItem = {
@@ -607,7 +607,7 @@ export const branches: BranchLocation[] = [
     phone: "094549 45992 / 096160 51355",
     head: "Sandeep Chatterjee (Director)",
     note: "Primary physical campus, live trading lab, administrative headquarters, and offline classroom suites.",
-    directionsUrl: "https://share.google/5j4DTAu3AHzNH4CQ4",
+    directionsUrl: "https://share.google/GtFbOL6B4c3gtFOed",
   },
   {
     id: "kolkata-center",
