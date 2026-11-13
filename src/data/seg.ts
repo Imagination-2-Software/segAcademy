@@ -296,7 +296,7 @@ export const teamMembers: TeamMember[] = [
     id: "ashish-kumar-gupta",
     name: "Ashish Kumar Gupta",
     role: "Senior Faculty & Market Mentor",
-    designation: "Lead Trainer (Money Matrix & APMF)",
+    designation: "Lead Trainer (Money Matrix & APFM)",
     category: "Academic Leadership & Faculty",
     department: "Financial Market Analytics & Smart Money Concepts",
     image: "/team/ashish-gupta.jpeg",
@@ -699,8 +699,8 @@ export const courses: Course[] = [
     ],
   },
   {
-    id: "apmf",
-    name: "APMF",
+    id: "apfm",
+    name: "APFM",
     fullName: "Advance Program in Financial Market",
     description:
       "The flagship professional certification program covering equity, derivatives, technical analysis, risk hedging, and terminal operations.",

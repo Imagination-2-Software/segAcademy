@@ -85,7 +85,7 @@ export function StudentLoginPage() {
 
       // Check registered students in localStorage or demo credentials
       let studentName = "SEG Academy Student";
-      let course = "Advance Program in Financial Market (APMF)";
+      let course = "Advance Program in Financial Market (APFM)";
 
       try {
         const stored = JSON.parse(

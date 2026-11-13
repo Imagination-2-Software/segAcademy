@@ -228,7 +228,7 @@ const courseCategoryData: CourseCategoryData[] = [
   {
     category: "Professional Certification Programs",
     courses: [
-      "APMF (Advance Program in Financial Market)",
+      "APFM (Advance Program in Financial Market)",
       "Certified Equity & Derivative Analyst (CEDA)",
       "Research Analyst & Terminal Operations Bootcamp",
     ],

@@ -56,7 +56,7 @@ const verifiedCertificatesDatabase: CertificateRecord[] = [
   {
     regsnoNo: "SEG/CERT/2024/0084",
     candidateName: "Amogha Sriteja",
-    courseTitle: "Advance Program in Financial Market (APMF)",
+    courseTitle: "Advance Program in Financial Market (APFM)",
     performanceGrade: "Distinction (Grade A+)",
     issueDate: "18-Dec-2024",
     accreditedBy: "SEG Academy Academic Council • ISO 9001:2015",

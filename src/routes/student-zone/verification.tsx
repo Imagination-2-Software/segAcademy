@@ -61,7 +61,7 @@ const verifiedStudentsDatabase: VerifiedStudentRecord[] = [
     enrollmentNo: "SEG/2024/0142",
     dob: "15-08-2001",
     fullName: "Amogha Sriteja",
-    courseName: "Advance Program in Financial Market (APMF)",
+    courseName: "Advance Program in Financial Market (APFM)",
     courseCategory: "Professional Certification Programs",
     studyCentre: "SEG Academy Headquarters (Sigra - Mahmoorganj Rd, D 59/98)",
     session: "2024-2025",
