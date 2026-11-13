@@ -46,7 +46,7 @@ export function Logo({
       <img
         src="/SEGAcademy%20Training%20Workshop%20Logo.png?v=2"
         alt="SEG Academy"
-        className={`h-[38px] sm:h-[42px] md:h-[45px] lg:h-[48px] w-auto max-w-[170px] sm:max-w-[200px] md:max-w-[230px] object-contain shrink-0 transition-all hover:opacity-95 drop-shadow-xs ${
+        className={`h-[46px] sm:h-[50px] md:h-[54px] lg:h-[58px] w-auto max-w-[204px] sm:max-w-[240px] md:max-w-[280px] object-contain shrink-0 transition-all hover:opacity-95 drop-shadow-xs ${
           !dark ? "rounded-xl bg-white/95 p-1.5 shadow-sm" : ""
         }`}
       />
@@ -413,10 +413,10 @@ export function Navbar() {
         }`}
       >
         <div
-          className={`pointer-events-auto mx-auto max-w-[1180px] rounded-2xl transition-all duration-300 ease-out flex items-center justify-between px-3 sm:px-4 lg:px-5 ${
+          className={`pointer-events-auto mx-auto max-w-[1416px] rounded-2xl transition-all duration-300 ease-out flex items-center justify-between px-3.5 sm:px-5 lg:px-6 ${
             scrolled
-              ? "h-[54px] sm:h-[58px] lg:h-[62px] bg-white/94 backdrop-blur-2xl border border-slate-200/85 shadow-[0_10px_32px_rgba(15,23,42,0.10),0_1px_3px_rgba(0,0,0,0.04)]"
-              : "h-[60px] sm:h-[64px] lg:h-[68px] bg-white/85 backdrop-blur-[20px] border border-white/85 shadow-[0_8px_28px_rgba(15,23,42,0.06),0_1px_2px_rgba(0,0,0,0.03)]"
+              ? "h-[65px] sm:h-[70px] lg:h-[74px] bg-white/94 backdrop-blur-2xl border border-slate-200/85 shadow-[0_10px_32px_rgba(15,23,42,0.10),0_1px_3px_rgba(0,0,0,0.04)]"
+              : "h-[72px] sm:h-[77px] lg:h-[82px] bg-white/85 backdrop-blur-[20px] border border-white/85 shadow-[0_8px_28px_rgba(15,23,42,0.06),0_1px_2px_rgba(0,0,0,0.03)]"
           }`}
         >
         {/* Brand Logo */}
@@ -427,13 +427,13 @@ export function Navbar() {
         {/* Desktop Public Navigation Links */}
         <nav
           aria-label="Main Public Navigation"
-          className="hidden items-center gap-1 lg:flex xl:gap-1.5 text-[13.5px] font-semibold text-slate-700"
+          className="hidden items-center gap-1.5 lg:flex xl:gap-2 text-[14px] font-semibold text-slate-700"
         >
           {/* 1. Home */}
           <a
             href="/"
             onClick={handleLinkClick}
-            className="rounded-lg px-2.5 py-1 transition-colors duration-150 hover:bg-slate-100/70 hover:text-[#351650]"
+            className="rounded-lg px-3 py-1.5 transition-colors duration-150 hover:bg-slate-100/70 hover:text-[#351650]"
           >
             Home
           </a>
@@ -451,7 +451,7 @@ export function Navbar() {
               }
               aria-expanded={activeDropdown === "about"}
               aria-haspopup="true"
-              className={`group flex items-center gap-1 rounded-lg px-2.5 py-1 transition-colors duration-150 cursor-pointer ${
+              className={`group flex items-center gap-1 rounded-lg px-3 py-1.5 transition-colors duration-150 cursor-pointer ${
                 activeDropdown === "about"
                   ? "bg-slate-100/90 text-[#351650] font-bold"
                   : "hover:bg-slate-100/70 hover:text-[#351650]"
@@ -528,7 +528,7 @@ export function Navbar() {
               }
               aria-expanded={activeDropdown === "courses"}
               aria-haspopup="true"
-              className={`group flex items-center gap-1 rounded-lg px-2.5 py-1 transition-colors duration-150 cursor-pointer ${
+              className={`group flex items-center gap-1 rounded-lg px-3 py-1.5 transition-colors duration-150 cursor-pointer ${
                 activeDropdown === "courses"
                   ? "bg-slate-100/90 text-[#351650] font-bold"
                   : "hover:bg-slate-100/70 hover:text-[#351650]"
@@ -622,7 +622,7 @@ export function Navbar() {
               }
               aria-expanded={activeDropdown === "blogs"}
               aria-haspopup="true"
-              className={`group flex items-center gap-1 rounded-lg px-2.5 py-1 transition-colors duration-150 cursor-pointer ${
+              className={`group flex items-center gap-1 rounded-lg px-3 py-1.5 transition-colors duration-150 cursor-pointer ${
                 activeDropdown === "blogs"
                   ? "bg-slate-100/90 text-[#351650] font-bold"
                   : "hover:bg-slate-100/70 hover:text-[#351650]"
@@ -707,7 +707,7 @@ export function Navbar() {
               }
               aria-expanded={activeDropdown === "more"}
               aria-haspopup="true"
-              className={`group flex items-center gap-1 rounded-lg px-2.5 py-1 transition-colors duration-150 cursor-pointer ${
+              className={`group flex items-center gap-1 rounded-lg px-3 py-1.5 transition-colors duration-150 cursor-pointer ${
                 activeDropdown === "more"
                   ? "bg-slate-100/90 text-[#351650] font-bold"
                   : "hover:bg-slate-100/70 hover:text-[#351650]"
@@ -980,7 +980,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={() => setIsCareersModalOpen(true)}
-            className="group flex items-center gap-1 rounded-lg px-2.5 py-1 transition-colors duration-150 hover:bg-slate-100/70 hover:text-[#351650] cursor-pointer"
+            className="group flex items-center gap-1 rounded-lg px-3 py-1.5 transition-colors duration-150 hover:bg-slate-100/70 hover:text-[#351650] cursor-pointer"
           >
             <span>Careers</span>
           </button>
@@ -989,14 +989,14 @@ export function Navbar() {
           <a
             href="/contact"
             onClick={handleLinkClick}
-            className="rounded-lg px-2.5 py-1 transition-colors duration-150 hover:bg-slate-100/70 hover:text-[#351650]"
+            className="rounded-lg px-3 py-1.5 transition-colors duration-150 hover:bg-slate-100/70 hover:text-[#351650]"
           >
             Contact
           </a>
         </nav>
 
         {/* Desktop Right Actions: Student Login + ENROLL NOW CTA */}
-        <div className="hidden items-center gap-2 lg:flex">
+        <div className="hidden items-center gap-2.5 sm:gap-3 lg:flex">
           {/* Student Login (Secondary Action with Dropdown for Portals) */}
           <div
             className="relative"
@@ -1006,7 +1006,7 @@ export function Navbar() {
             <a
               href="/student-zone/login"
               onClick={handleLinkClick}
-              className={`group flex items-center gap-1.5 rounded-xl border border-slate-200/90 bg-white/70 px-3 py-1.5 text-[12.5px] font-semibold text-slate-700 shadow-xs transition-all duration-150 hover:border-slate-300 hover:bg-white hover:text-[#351650] hover:shadow-xs ${
+              className={`group flex items-center gap-1.5 rounded-xl border border-slate-200/90 bg-white/70 px-3.5 py-2 text-[13px] font-semibold text-slate-700 shadow-sm transition-all duration-150 hover:border-slate-300 hover:bg-white hover:text-[#351650] hover:shadow ${
                 activeDropdown === "student" ? "bg-white border-slate-300 text-[#351650]" : ""
               }`}
             >
@@ -1066,7 +1066,7 @@ export function Navbar() {
           <a
             href="/student-zone/registration"
             onClick={handleLinkClick}
-            className="group relative inline-flex items-center justify-center gap-1.5 overflow-hidden rounded-xl bg-gradient-to-r from-[#FF7A00] to-[#E05F00] px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-wide text-white shadow-[0_3px_12px_rgba(255,122,0,0.30)] transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_5px_18px_rgba(255,122,0,0.45)] active:scale-[0.98]"
+            className="group relative inline-flex items-center justify-center gap-1.5 overflow-hidden rounded-xl bg-gradient-to-r from-[#FF7A00] to-[#E05F00] px-4.5 py-2 text-[12.5px] sm:text-[13px] font-bold uppercase tracking-wide text-white shadow-[0_4px_16px_rgba(255,122,0,0.32)] transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_6px_22px_rgba(255,122,0,0.5)] active:scale-[0.98]"
           >
             <span>ENROLL NOW</span>
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
@@ -1077,7 +1077,7 @@ export function Navbar() {
         <div className="flex items-center gap-2 lg:hidden">
           <a
             href="/student-zone/registration"
-            className="inline-flex items-center justify-center rounded-lg bg-[#FF8A24] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-white shadow-xs sm:hidden"
+            className="inline-flex items-center justify-center rounded-lg bg-[#FF8A24] px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white shadow-sm sm:hidden"
           >
             Enroll
           </a>
@@ -1086,9 +1086,9 @@ export function Navbar() {
             onClick={() => setMobileOpen((v) => !v)}
             aria-expanded={mobileOpen}
             aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-slate-200/80 bg-white/80 text-slate-700 shadow-xs transition-colors hover:bg-slate-100"
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-slate-200/80 bg-white/80 text-slate-700 shadow-sm transition-colors hover:bg-slate-100"
           >
-            {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
@@ -1096,7 +1096,7 @@ export function Navbar() {
 
       {/* Mobile Floating Drawer */}
       {mobileOpen && (
-        <div className="pointer-events-auto mx-auto mt-2 max-w-[1180px] rounded-2xl border border-slate-200/90 bg-white/96 p-4 shadow-[0_20px_50px_rgba(15,23,42,0.18)] backdrop-blur-2xl max-h-[calc(100vh-90px)] overflow-y-auto animate-in fade-in-0 slide-in-from-top-2 duration-200 lg:hidden">
+        <div className="pointer-events-auto mx-auto mt-2 max-w-[1416px] rounded-2xl border border-slate-200/90 bg-white/96 p-4 shadow-[0_20px_50px_rgba(15,23,42,0.18)] backdrop-blur-2xl max-h-[calc(100vh-90px)] overflow-y-auto animate-in fade-in-0 slide-in-from-top-2 duration-200 lg:hidden">
           <ul className="flex flex-col divide-y divide-slate-100 text-sm font-semibold text-slate-800">
             {/* Home */}
             <li className="py-2.5">
