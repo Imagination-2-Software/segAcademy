@@ -314,15 +314,15 @@ export function LearningAreas() {
   return (
     <section id="services" className="py-20 lg:py-28 overflow-hidden bg-sand/30 w-full">
       {/* Top Header Section */}
-      <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
-        <Reveal className="max-w-2xl">
-          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-brand">
+      <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12 text-center">
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <span className="block text-xs font-semibold uppercase tracking-[0.25em] text-brand">
             Multi-Market Curricula
           </span>
           <h2 className="mt-2 font-display text-3xl font-extrabold leading-tight text-ink sm:text-5xl">
             Understand More Than Just the Charts
           </h2>
-          <p className="mt-4 text-muted-foreground sm:text-lg">
+          <p className="mt-4 text-muted-foreground sm:text-lg mx-auto max-w-xl">
             Build a broader understanding of financial markets through structured learning across
             multiple market concepts.
           </p>
