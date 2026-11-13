@@ -23,7 +23,6 @@ import {
 } from "lucide-react";
 import marketInterface from "@/assets/market-interface.jpg";
 import mentor from "@/assets/mentor.jpg";
-import learningJourney from "@/assets/learning-journey.jpg";
 import academyExterior from "@/assets/academy-exterior.jpg";
 import academyInterior from "@/assets/academy-interior.jpg";
 import heroClassroom from "@/assets/hero-classroom.jpg";
@@ -37,7 +36,6 @@ import {
   brand,
   darkFeatures,
   learningAreas,
-  learningPath,
   rating,
   reviewThemes,
   testimonials,
@@ -147,56 +145,6 @@ export function WhySeg() {
               </Reveal>
             ))}
           </ul>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function LearningExperience() {
-  return (
-    <section className="bg-sand py-20 lg:py-28">
-      <div className="mx-auto grid max-w-[1280px] items-center gap-14 px-5 lg:grid-cols-2 lg:gap-20 lg:px-8">
-        <Reveal>
-          <div className="overflow-hidden rounded-3xl border border-border shadow-card">
-            <img
-              src={learningJourney}
-              alt="Learners attending a structured stock market session at SEG Academy"
-              width={1000}
-              height={1100}
-              loading="lazy"
-              className="h-full w-full object-cover"
-            />
-          </div>
-        </Reveal>
-
-        <div>
-          <Reveal>
-            <h2 className="font-display text-3xl font-extrabold leading-tight text-ink sm:text-5xl">
-              From Market Basics to Advanced Strategies
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              A learning journey that moves in order, so each stage builds on the one before it.
-            </p>
-          </Reveal>
-
-          <ol className="mt-10 space-y-0">
-            {learningPath.map((step, i) => (
-              <Reveal as="li" key={step.n} delay={i * 60}>
-                <div className="flex gap-4">
-                  <div className="flex flex-col items-center">
-                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-gold/40 bg-card text-xs font-bold text-gold-strong">
-                      {step.n}
-                    </span>
-                    {i < learningPath.length - 1 && <span className="w-px flex-1 bg-border" />}
-                  </div>
-                  <p className="pb-7 pt-1.5 font-display text-base font-semibold text-ink">
-                    {step.title}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </ol>
         </div>
       </div>
     </section>

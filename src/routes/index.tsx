@@ -9,7 +9,6 @@ import { StudentStories } from "@/components/StudentStories";
 import {
   DarkValueSection,
   LearningAreas,
-  LearningExperience,
   LocationSection,
   WhySeg,
 } from "@/components/Sections";
@@ -87,7 +86,6 @@ function Home() {
         <DarkValueSection />
         <WhySeg />
         <TeamSection />
-        <LearningExperience />
         <LearningAreas />
         <BranchesSection />
         <StudentStories />
