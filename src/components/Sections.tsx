@@ -210,6 +210,53 @@ const learningAreasDetailed = [
   },
 ];
 
+function LearningAreaCard({ area }: { area: (typeof learningAreasDetailed)[0] }) {
+  const IconComponent = area.icon;
+  return (
+    <article className="group relative flex h-full flex-col items-center justify-between text-center overflow-hidden rounded-3xl border border-border bg-card p-6 sm:p-7 shadow-card transition-all duration-500 hover:-translate-y-1.5 hover:border-gold/50 hover:shadow-lift">
+      {/* Ambient card top border glow on hover */}
+      <div className="pointer-events-none absolute -inset-px rounded-3xl bg-gradient-to-b from-gold/10 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+      {/* Top Domain Badge */}
+      <div className="relative z-10 flex items-center gap-1.5 rounded-full bg-sand/80 px-3 py-1 text-[11px] font-bold text-brand uppercase tracking-wider">
+        <IconComponent className="h-3.5 w-3.5 text-gold-strong" />
+        <span>{area.tag}</span>
+      </div>
+
+      {/* Middle Content Section */}
+      <div className="relative z-10 my-4 flex flex-col items-center w-full">
+        {/* 1. Card Name in Middle */}
+        <h3 className="font-display text-xl sm:text-2xl font-bold text-ink transition-colors group-hover:text-brand">
+          {area.title}
+        </h3>
+
+        {/* 2. Image Related to It in Middle */}
+        <div className="relative my-4 aspect-[16/10] w-full max-w-[280px] overflow-hidden rounded-2xl bg-black/10 border border-border/60 shadow-sm transition-transform duration-500 group-hover:scale-[1.03]">
+          <img
+            src={area.image}
+            alt={`${area.title} at SEG Academy`}
+            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+            loading="lazy"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
+        </div>
+
+        {/* 3. Text Related to It */}
+        <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground px-2">
+          {area.body}
+        </p>
+      </div>
+
+      {/* Bottom Footer Accent */}
+      <div className="relative z-10 pt-3 border-t border-border/50 w-full flex items-center justify-center">
+        <span className="text-[11px] font-semibold text-brand/80 group-hover:text-brand transition-colors flex items-center gap-1">
+          Core Practical Domain <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+        </span>
+      </div>
+    </article>
+  );
+}
+
 export function LearningAreas() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
@@ -218,7 +265,40 @@ export function LearningAreas() {
   const viewportRef = useRef<HTMLDivElement>(null);
   const isAnimatingRef = useRef(false);
 
-  // Touch Swipe Handlers for Mobile
+  // Mobile Single Card State (no sliding drift, strictly 1 card at a time with arrow controls)
+  const [mobileAreaIdx, setMobileAreaIdx] = useState(0);
+  const mobileTouchStartX = useRef<number | null>(null);
+
+  const prevMobileArea = () => {
+    setMobileAreaIdx((prev) =>
+      prev === 0 ? learningAreasDetailed.length - 1 : prev - 1
+    );
+  };
+
+  const nextMobileArea = () => {
+    setMobileAreaIdx((prev) =>
+      prev === learningAreasDetailed.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const handleMobileTouchStart = (e: React.TouchEvent) => {
+    mobileTouchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleMobileTouchEnd = (e: React.TouchEvent) => {
+    if (mobileTouchStartX.current === null) return;
+    const diff = mobileTouchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        nextMobileArea();
+      } else {
+        prevMobileArea();
+      }
+    }
+    mobileTouchStartX.current = null;
+  };
+
+  // Touch Swipe Handlers for Desktop Viewport
   const touchStartX = useRef<number | null>(null);
   const touchDeltaX = useRef<number>(0);
 
@@ -251,7 +331,7 @@ export function LearningAreas() {
 
   const maxIndex = Math.max(0, learningAreasDetailed.length - visibleCount);
 
-  // 3-second automatic moving carousel with pause
+  // 3-second automatic moving carousel with pause for desktop
   useEffect(() => {
     if (isHovered || maxIndex <= 0) return;
     const interval = setInterval(() => {
@@ -329,9 +409,9 @@ export function LearningAreas() {
         </Reveal>
       </div>
 
-      {/* Full Screen Width Carousel Section */}
+      {/* DESKTOP: Full Screen Width Carousel Section */}
       <div
-        className="relative mt-12 sm:mt-16 w-full px-4 sm:px-6 lg:px-10"
+        className="hidden md:block relative mt-12 sm:mt-16 w-full px-4 sm:px-6 lg:px-10"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -350,57 +430,14 @@ export function LearningAreas() {
             }}
             className="flex gap-6 will-change-transform"
           >
-            {learningAreasDetailed.map((area) => {
-              const IconComponent = area.icon;
-              return (
-                <div
-                  key={area.title}
-                  className="w-full shrink-0 sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)]"
-                >
-                  <article className="group relative flex h-full flex-col items-center justify-between text-center overflow-hidden rounded-3xl border border-border bg-card p-6 sm:p-7 shadow-card transition-all duration-500 hover:-translate-y-1.5 hover:border-gold/50 hover:shadow-lift">
-                    {/* Ambient card top border glow on hover */}
-                    <div className="pointer-events-none absolute -inset-px rounded-3xl bg-gradient-to-b from-gold/10 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-
-                    {/* Top Domain Badge */}
-                    <div className="relative z-10 flex items-center gap-1.5 rounded-full bg-sand/80 px-3 py-1 text-[11px] font-bold text-brand uppercase tracking-wider">
-                      <IconComponent className="h-3.5 w-3.5 text-gold-strong" />
-                      <span>{area.tag}</span>
-                    </div>
-
-                    {/* Middle Content Section */}
-                    <div className="relative z-10 my-4 flex flex-col items-center w-full">
-                      {/* 1. Card Name in Middle */}
-                      <h3 className="font-display text-xl sm:text-2xl font-bold text-ink transition-colors group-hover:text-brand">
-                        {area.title}
-                      </h3>
-
-                      {/* 2. Image Related to It in Middle */}
-                      <div className="relative my-4 aspect-[16/10] w-full max-w-[280px] overflow-hidden rounded-2xl bg-black/10 border border-border/60 shadow-sm transition-transform duration-500 group-hover:scale-[1.03]">
-                        <img
-                          src={area.image}
-                          alt={`${area.title} at SEG Academy`}
-                          className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
-                          loading="lazy"
-                        />
-                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
-                      </div>
-
-                      {/* 3. Text Related to It */}
-                      <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground px-2">
-                        {area.body}
-                      </p>
-                    </div>
-
-                    {/* Bottom Footer Accent */}
-                    <div className="relative z-10 pt-3 border-t border-border/50 w-full flex items-center justify-center">
-                      <span className="text-[11px] font-semibold text-brand/80 group-hover:text-brand transition-colors flex items-center gap-1">
-                        Core Practical Domain <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
-                      </span>
-                    </div>
-                  </article>
-                </div>
-              );
-            })}
+            {learningAreasDetailed.map((area) => (
+              <div
+                key={area.title}
+                className="w-full shrink-0 sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)]"
+              >
+                <LearningAreaCard area={area} />
+              </div>
+            ))}
           </div>
         </div>
 
@@ -442,6 +479,57 @@ export function LearningAreas() {
               />
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* MOBILE UI: Strictly ONE Card at a time, perfectly centered, with arrow controls below */}
+      <div className="block md:hidden mt-8 px-4">
+        <div
+          className="w-full max-w-sm mx-auto"
+          onTouchStart={handleMobileTouchStart}
+          onTouchEnd={handleMobileTouchEnd}
+        >
+          <LearningAreaCard area={learningAreasDetailed[mobileAreaIdx]} />
+        </div>
+
+        {/* Navigation Controls Directly Below the Card */}
+        <div className="mt-6 flex items-center justify-center gap-5">
+          <button
+            type="button"
+            onClick={prevMobileArea}
+            aria-label="Previous learning area"
+            className="flex h-12 w-20 items-center justify-center rounded-full border border-border bg-card text-ink shadow-2xs transition-all active:scale-95 hover:bg-muted cursor-pointer"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+
+          <span className="min-w-[65px] text-center font-display text-sm font-bold text-ink">
+            {String(mobileAreaIdx + 1).padStart(2, "0")} / {String(learningAreasDetailed.length).padStart(2, "0")}
+          </span>
+
+          <button
+            type="button"
+            onClick={nextMobileArea}
+            aria-label="Next learning area"
+            className="flex h-12 w-20 items-center justify-center rounded-full bg-brand text-white shadow-2xs transition-all active:scale-95 hover:bg-brand-strong cursor-pointer"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Mobile Dots Indicator */}
+        <div className="mt-4 flex items-center justify-center gap-2">
+          {learningAreasDetailed.map((_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => setMobileAreaIdx(idx)}
+              aria-label={`Go to slide ${idx + 1}`}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                mobileAreaIdx === idx ? "w-6 bg-brand" : "w-2 bg-border"
+              }`}
+            />
+          ))}
         </div>
       </div>
     </section>

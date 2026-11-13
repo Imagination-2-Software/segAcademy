@@ -121,7 +121,36 @@ export function CourseGrid() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const isAnimatingRef = useRef(false);
 
-  // Touch swipe support on mobile
+  // Mobile Single Card State (no sliding drift, purely 1 card at a time with arrow controls)
+  const [mobileCourseIdx, setMobileCourseIdx] = useState(0);
+  const mobileTouchStartX = useRef<number | null>(null);
+
+  const prevMobileCourse = () => {
+    setMobileCourseIdx((prev) => (prev === 0 ? courses.length - 1 : prev - 1));
+  };
+
+  const nextMobileCourse = () => {
+    setMobileCourseIdx((prev) => (prev === courses.length - 1 ? 0 : prev + 1));
+  };
+
+  const handleMobileTouchStart = (e: React.TouchEvent) => {
+    mobileTouchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleMobileTouchEnd = (e: React.TouchEvent) => {
+    if (mobileTouchStartX.current === null) return;
+    const diff = mobileTouchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        nextMobileCourse();
+      } else {
+        prevMobileCourse();
+      }
+    }
+    mobileTouchStartX.current = null;
+  };
+
+  // Touch swipe support on desktop carousel
   const touchStartX = useRef<number | null>(null);
   const touchDeltaX = useRef<number>(0);
 
@@ -190,7 +219,7 @@ export function CourseGrid() {
     }, 500);
   };
 
-  // Touch Swipe Handlers for Mobile
+  // Touch Swipe Handlers for Desktop Viewport
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     touchDeltaX.current = 0;
@@ -214,6 +243,7 @@ export function CourseGrid() {
   };
 
   const translateX = currentIndex * cardStep;
+  const currentMobileCourse = courses[mobileCourseIdx];
 
   return (
     <section id="courses" className="py-20 lg:py-28 overflow-hidden">
@@ -228,82 +258,138 @@ export function CourseGrid() {
           </p>
         </Reveal>
 
-        {/* Carousel Container with Left and Right Side Arrow Buttons */}
-        <div className="relative mt-12 sm:mt-16 px-6 sm:px-14 lg:px-16">
-          {/* Left Side Arrow Button */}
-          <button
-            type="button"
-            onClick={handlePrev}
-            disabled={currentIndex <= 0}
-            aria-label="Previous courses slide"
-            className={`group absolute left-0 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-border bg-card/95 text-ink shadow-lift backdrop-blur-md transition-all duration-200 ${
-              currentIndex <= 0
-                ? "opacity-35 cursor-not-allowed pointer-events-none"
-                : "hover:border-gold hover:bg-gold hover:text-ink hover:scale-105 active:scale-95 cursor-pointer"
-            }`}
-          >
-            <ChevronLeft className="h-6 w-6 stroke-[2.2] transition-transform duration-200 group-hover:-translate-x-0.5" />
-          </button>
-
-          {/* Smooth Sliding Track Viewport */}
-          <div
-            ref={viewportRef}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            className="overflow-hidden py-4 px-1"
-          >
-            <div
-              style={{
-                transform: `translate3d(-${translateX}px, 0, 0)`,
-                transition: prefersReducedMotion
-                  ? "none"
-                  : "transform 500ms cubic-bezier(0.22, 1, 0.36, 1)",
-              }}
-              className="flex gap-6 will-change-transform"
+        {/* DESKTOP & TABLET: Multi-card sliding carousel */}
+        <div className="hidden md:block">
+          <div className="relative mt-12 sm:mt-16 px-6 sm:px-14 lg:px-16">
+            {/* Left Side Arrow Button */}
+            <button
+              type="button"
+              onClick={handlePrev}
+              disabled={currentIndex <= 0}
+              aria-label="Previous courses slide"
+              className={`group absolute left-0 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-border bg-card/95 text-ink shadow-lift backdrop-blur-md transition-all duration-200 ${
+                currentIndex <= 0
+                  ? "opacity-35 cursor-not-allowed pointer-events-none"
+                  : "hover:border-gold hover:bg-gold hover:text-ink hover:scale-105 active:scale-95 cursor-pointer"
+              }`}
             >
-              {courses.map((c) => (
-                <div
-                  key={c.id}
-                  className="w-full shrink-0 sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
-                >
-                  <CourseCard course={c} onSelect={() => setSelectedCourse(c)} />
-                </div>
-              ))}
+              <ChevronLeft className="h-6 w-6 stroke-[2.2] transition-transform duration-200 group-hover:-translate-x-0.5" />
+            </button>
+
+            {/* Smooth Sliding Track Viewport */}
+            <div
+              ref={viewportRef}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              className="overflow-hidden py-4 px-1"
+            >
+              <div
+                style={{
+                  transform: `translate3d(-${translateX}px, 0, 0)`,
+                  transition: prefersReducedMotion
+                    ? "none"
+                    : "transform 500ms cubic-bezier(0.22, 1, 0.36, 1)",
+                }}
+                className="flex gap-6 will-change-transform"
+              >
+                {courses.map((c) => (
+                  <div
+                    key={c.id}
+                    className="w-full shrink-0 sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+                  >
+                    <CourseCard course={c} onSelect={() => setSelectedCourse(c)} />
+                  </div>
+                ))}
+              </div>
             </div>
+
+            {/* Right Side Arrow Button */}
+            <button
+              type="button"
+              onClick={handleNext}
+              disabled={currentIndex >= maxIndex}
+              aria-label="Next courses slide"
+              className={`group absolute right-0 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-border bg-card/95 text-ink shadow-lift backdrop-blur-md transition-all duration-200 ${
+                currentIndex >= maxIndex
+                  ? "opacity-35 cursor-not-allowed pointer-events-none"
+                  : "hover:border-gold hover:bg-gold hover:text-ink hover:scale-105 active:scale-95 cursor-pointer"
+              }`}
+            >
+              <ChevronRight className="h-6 w-6 stroke-[2.2] transition-transform duration-200 group-hover:translate-x-0.5" />
+            </button>
           </div>
 
-          {/* Right Side Arrow Button */}
-          <button
-            type="button"
-            onClick={handleNext}
-            disabled={currentIndex >= maxIndex}
-            aria-label="Next courses slide"
-            className={`group absolute right-0 top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-border bg-card/95 text-ink shadow-lift backdrop-blur-md transition-all duration-200 ${
-              currentIndex >= maxIndex
-                ? "opacity-35 cursor-not-allowed pointer-events-none"
-                : "hover:border-gold hover:bg-gold hover:text-ink hover:scale-105 active:scale-95 cursor-pointer"
-            }`}
-          >
-            <ChevronRight className="h-6 w-6 stroke-[2.2] transition-transform duration-200 group-hover:translate-x-0.5" />
-          </button>
+          {/* Desktop Pagination Indicator Dots */}
+          <div className="mt-8 flex items-center justify-center gap-2">
+            {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => goToSlide(idx)}
+                aria-label={`Go to slide ${idx + 1}`}
+                className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                  currentIndex === idx
+                    ? "w-8 bg-brand"
+                    : "w-2.5 bg-border hover:bg-muted-foreground/40"
+                }`}
+              />
+            ))}
+          </div>
         </div>
 
-        {/* Pagination Indicator Dots */}
-        <div className="mt-8 flex items-center justify-center gap-2">
-          {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => goToSlide(idx)}
-              aria-label={`Go to slide ${idx + 1}`}
-              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                currentIndex === idx
-                  ? "w-8 bg-brand"
-                  : "w-2.5 bg-border hover:bg-muted-foreground/40"
-              }`}
+        {/* MOBILE UI: Strictly ONE Card at a time, perfectly centered, with arrow controls below */}
+        <div className="block md:hidden mt-8">
+          <div
+            className="w-full max-w-sm mx-auto"
+            onTouchStart={handleMobileTouchStart}
+            onTouchEnd={handleMobileTouchEnd}
+          >
+            <CourseCard
+              course={currentMobileCourse}
+              onSelect={() => setSelectedCourse(currentMobileCourse)}
             />
-          ))}
+          </div>
+
+          {/* Arrow Navigation Controls Directly Below the Card */}
+          <div className="mt-6 flex items-center justify-center gap-5">
+            <button
+              type="button"
+              onClick={prevMobileCourse}
+              aria-label="Previous course"
+              className="flex h-12 w-20 items-center justify-center rounded-full border border-border bg-card text-ink shadow-2xs transition-all active:scale-95 hover:bg-muted cursor-pointer"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+
+            <span className="min-w-[65px] text-center font-display text-sm font-bold text-ink">
+              {String(mobileCourseIdx + 1).padStart(2, "0")} / {String(courses.length).padStart(2, "0")}
+            </span>
+
+            <button
+              type="button"
+              onClick={nextMobileCourse}
+              aria-label="Next course"
+              className="flex h-12 w-20 items-center justify-center rounded-full bg-brand text-white shadow-2xs transition-all active:scale-95 hover:bg-brand-strong cursor-pointer"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+
+          {/* Mobile Dots Indicator */}
+          <div className="mt-4 flex items-center justify-center gap-2">
+            {courses.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setMobileCourseIdx(idx)}
+                aria-label={`Go to course ${idx + 1}`}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  mobileCourseIdx === idx ? "w-6 bg-brand" : "w-2 bg-border"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
 

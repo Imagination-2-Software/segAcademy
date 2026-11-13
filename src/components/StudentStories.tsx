@@ -190,9 +190,9 @@ export function StudentStories() {
       </div>
 
       {/* MOBILE UI: Strictly NO auto-movement. Exactly ONE card visible with arrow buttons below */}
-      <div className="block md:hidden px-5">
+      <div className="block md:hidden px-4">
         <div
-          className="w-full"
+          className="w-full max-w-sm mx-auto"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
