@@ -413,7 +413,7 @@ export function Navbar() {
         }`}
       >
         <div
-          className={`pointer-events-auto mx-auto max-w-[1416px] rounded-2xl transition-all duration-300 ease-out flex items-center justify-between px-3.5 sm:px-5 lg:px-6 ${
+          className={`pointer-events-auto mx-auto max-w-[1275px] rounded-2xl transition-all duration-300 ease-out flex items-center justify-between px-3.5 sm:px-5 lg:px-6 ${
             scrolled
               ? "h-[65px] sm:h-[70px] lg:h-[74px] bg-white/94 backdrop-blur-2xl border border-slate-200/85 shadow-[0_10px_32px_rgba(15,23,42,0.10),0_1px_3px_rgba(0,0,0,0.04)]"
               : "h-[72px] sm:h-[77px] lg:h-[82px] bg-white/85 backdrop-blur-[20px] border border-white/85 shadow-[0_8px_28px_rgba(15,23,42,0.06),0_1px_2px_rgba(0,0,0,0.03)]"
@@ -1096,7 +1096,7 @@ export function Navbar() {
 
       {/* Mobile Floating Drawer */}
       {mobileOpen && (
-        <div className="pointer-events-auto mx-auto mt-2 max-w-[1416px] rounded-2xl border border-slate-200/90 bg-white/96 p-4 shadow-[0_20px_50px_rgba(15,23,42,0.18)] backdrop-blur-2xl max-h-[calc(100vh-90px)] overflow-y-auto animate-in fade-in-0 slide-in-from-top-2 duration-200 lg:hidden">
+        <div className="pointer-events-auto mx-auto mt-2 max-w-[1275px] rounded-2xl border border-slate-200/90 bg-white/96 p-4 shadow-[0_20px_50px_rgba(15,23,42,0.18)] backdrop-blur-2xl max-h-[calc(100vh-90px)] overflow-y-auto animate-in fade-in-0 slide-in-from-top-2 duration-200 lg:hidden">
           <ul className="flex flex-col divide-y divide-slate-100 text-sm font-semibold text-slate-800">
             {/* Home */}
             <li className="py-2.5">
