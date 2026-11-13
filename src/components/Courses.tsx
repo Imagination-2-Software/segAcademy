@@ -11,7 +11,7 @@ import {
   GraduationCap,
   Sparkles,
 } from "lucide-react";
-import { courses, discoveryCategories, type Course } from "@/data/seg";
+import { courses, type Course } from "@/data/seg";
 import { Reveal } from "@/components/Reveal";
 
 export function CourseCard({
@@ -308,80 +308,6 @@ export function CourseGrid() {
       </div>
 
       {/* Course Core Modules & Enrollment Modal Popup */}
-      <CourseModal course={selectedCourse} onClose={() => setSelectedCourse(null)} />
-    </section>
-  );
-}
-
-export function CourseDiscovery() {
-  const [active, setActive] = useState<string>(discoveryCategories[0] ?? "Beginner");
-  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-  const filtered = courses.filter((c) => c.categories.includes(active));
-
-  return (
-    <section className="py-20 lg:py-28">
-      <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
-        <Reveal className="max-w-2xl">
-          <h2 className="font-display text-3xl font-extrabold leading-tight text-ink sm:text-4xl">
-            Find the Right Path for Your Trading Journey
-          </h2>
-          <p className="mt-4 text-muted-foreground">
-            Choose a focus area and see which SEG Academy programs cover it.
-          </p>
-        </Reveal>
-
-        <div className="mt-8 flex flex-wrap gap-2.5">
-          {discoveryCategories.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => setActive(cat)}
-              aria-pressed={active === cat}
-              className={`rounded-full border px-4 py-2 text-sm font-medium transition-all ${
-                active === cat
-                  ? "border-ink bg-ink text-ink-foreground"
-                  : "border-border bg-card text-muted-foreground hover:border-brand hover:text-brand-strong"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        <div className="mt-8 grid gap-4">
-          {filtered.map((c) => (
-            <div
-              key={c.id}
-              className="grid gap-5 rounded-3xl border border-border bg-card p-4 shadow-card transition-all hover:shadow-lift sm:grid-cols-[180px_minmax(0,1fr)_auto] sm:items-center"
-            >
-              <img
-                src={c.image}
-                alt={`${c.name} program`}
-                width={900}
-                height={700}
-                loading="lazy"
-                className="h-36 w-full rounded-2xl object-cover sm:h-28"
-              />
-              <div className="min-w-0">
-                <h3 className="font-display text-lg font-bold text-ink">{c.name}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{c.description}</p>
-                <p className="mt-2 text-xs uppercase tracking-[0.12em] text-muted-foreground">
-                  {c.level} · {c.mode}
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setSelectedCourse(c)}
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-brand hover:text-brand-strong cursor-pointer"
-              >
-                View Course <ArrowRight className="h-4 w-4" />
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Reusable Modal for Course Discovery */}
       <CourseModal course={selectedCourse} onClose={() => setSelectedCourse(null)} />
     </section>
   );

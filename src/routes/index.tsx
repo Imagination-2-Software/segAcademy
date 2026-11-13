@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { TrustBar } from "@/components/Stats";
-import { CourseGrid, CourseDiscovery } from "@/components/Courses";
+import { CourseGrid } from "@/components/Courses";
 import { TeamSection } from "@/components/TeamSection";
 import { BranchesSection } from "@/components/BranchesSection";
 import { StudentStories } from "@/components/StudentStories";
@@ -89,7 +89,6 @@ function Home() {
         <LearningAreas />
         <BranchesSection />
         <StudentStories />
-        <CourseDiscovery />
         <LocationSection />
         <Faq />
         <FinalCta />
