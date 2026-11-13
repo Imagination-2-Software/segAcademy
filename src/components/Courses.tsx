@@ -1,13 +1,33 @@
 import { useState, useRef, useEffect } from "react";
-import { ArrowRight, Clock, MonitorSmartphone, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ArrowRight,
+  Clock,
+  MonitorSmartphone,
+  ChevronLeft,
+  ChevronRight,
+  BookOpen,
+  X,
+  MessageCircle,
+  GraduationCap,
+  Sparkles,
+} from "lucide-react";
 import { courses, discoveryCategories, type Course } from "@/data/seg";
 import { Reveal } from "@/components/Reveal";
 
-export function CourseCard({ course }: { course: Course }) {
+export function CourseCard({
+  course,
+  onSelect,
+}: {
+  course: Course;
+  onSelect: () => void;
+}) {
   const isFeatured = course.id === "money-matrix";
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
+    <article
+      onClick={onSelect}
+      className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 hover:shadow-lift cursor-pointer"
+    >
       {/* Official Portrait Course Poster Container */}
       <div className="relative aspect-[4/5] w-full overflow-hidden rounded-t-3xl bg-[#0b0318] p-2 flex items-center justify-center border-b border-border/40">
         <img
@@ -52,26 +72,6 @@ export function CourseCard({ course }: { course: Course }) {
           {course.description}
         </p>
 
-        {course.modules && course.modules.length > 0 && (
-          <div className="mt-4 rounded-xl bg-sand/60 p-3">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-ink/70">
-              {isFeatured ? "Program Highlights:" : "Core Modules:"}
-            </p>
-            <ul className="mt-1.5 space-y-1 text-xs text-muted-foreground">
-              {course.modules.slice(0, 3).map((m) => (
-                <li key={m} className="flex items-center gap-1.5">
-                  <span
-                    className={`h-1.5 w-1.5 rounded-full ${
-                      isFeatured ? "bg-gold" : "bg-brand"
-                    }`}
-                  />
-                  {m}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
         <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1.5">
             <MonitorSmartphone className="h-3.5 w-3.5" /> {course.mode}
@@ -92,17 +92,21 @@ export function CourseCard({ course }: { course: Course }) {
           )}
         </div>
 
-        <a
-          href={course.ctaHref || "#contact"}
-          className={`mt-6 inline-flex w-fit items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-all ${
-            course.ctaHref && course.ctaHref !== "#contact"
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelect();
+          }}
+          className={`mt-6 inline-flex w-fit items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-all cursor-pointer ${
+            isFeatured
               ? "bg-gold text-ink shadow-sm hover:bg-gold-strong"
               : "bg-gold/15 text-gold-strong hover:bg-gold hover:text-ink shadow-2xs"
           }`}
         >
-          {course.ctaText || "Explore Course"}
+          Explore Course
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-        </a>
+        </button>
       </div>
     </article>
   );
@@ -110,6 +114,7 @@ export function CourseCard({ course }: { course: Course }) {
 
 export function CourseGrid() {
   const viewportRef = useRef<HTMLDivElement>(null);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [cardStep, setCardStep] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
@@ -262,7 +267,7 @@ export function CourseGrid() {
                   key={c.id}
                   className="w-full shrink-0 sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
                 >
-                  <CourseCard course={c} />
+                  <CourseCard course={c} onSelect={() => setSelectedCourse(c)} />
                 </div>
               ))}
             </div>
@@ -301,12 +306,16 @@ export function CourseGrid() {
           ))}
         </div>
       </div>
+
+      {/* Course Core Modules & Enrollment Modal Popup */}
+      <CourseModal course={selectedCourse} onClose={() => setSelectedCourse(null)} />
     </section>
   );
 }
 
 export function CourseDiscovery() {
   const [active, setActive] = useState<string>(discoveryCategories[0] ?? "Beginner");
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const filtered = courses.filter((c) => c.categories.includes(active));
 
   return (
@@ -360,16 +369,165 @@ export function CourseDiscovery() {
                   {c.level} · {c.mode}
                 </p>
               </div>
-              <a
-                href="#contact"
-                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-brand hover:text-brand-strong"
+              <button
+                type="button"
+                onClick={() => setSelectedCourse(c)}
+                className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-brand hover:text-brand-strong cursor-pointer"
               >
                 View Course <ArrowRight className="h-4 w-4" />
-              </a>
+              </button>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Reusable Modal for Course Discovery */}
+      <CourseModal course={selectedCourse} onClose={() => setSelectedCourse(null)} />
     </section>
+  );
+}
+
+// Course Core Modules & Enrollment Popup Modal Dialog
+export function CourseModal({
+  course,
+  onClose,
+}: {
+  course: Course | null;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    if (course) {
+      window.addEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [course, onClose]);
+
+  if (!course) return null;
+
+  const handleEnrollWhatsApp = () => {
+    // Pre-written message format: "Hello, SEG Academy. I am Interested in " + courseName + ". Please tell me more about this."
+    const message = `Hello, SEG Academy. I am Interested in ${course.name}. Please tell me more about this.`;
+    const whatsappUrl = `https://wa.me/919454945992?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  };
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="course-modal-title"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-sm animate-in fade-in duration-200"
+      onClick={onClose}
+    >
+      <div
+        className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl bg-card border border-border p-6 sm:p-7 shadow-lift"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close Button */}
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close course details"
+          className="absolute top-4 right-4 sm:top-5 sm:right-5 flex h-9 w-9 items-center justify-center rounded-full bg-sand hover:bg-sand/80 text-muted-foreground hover:text-ink transition-colors cursor-pointer"
+        >
+          <X className="h-4 w-4" />
+        </button>
+
+        {/* Header Badges */}
+        <div className="flex flex-wrap items-center gap-2 pr-10">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-gold/15 px-3 py-1 text-xs font-bold text-gold-strong">
+            <Sparkles className="h-3 w-3" /> {course.level}
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-accent-foreground">
+            <MonitorSmartphone className="h-3 w-3" /> {course.mode}
+          </span>
+          {course.duration && (
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-sand px-3 py-1 text-xs font-medium text-ink">
+              <Clock className="h-3 w-3" /> {course.duration}
+            </span>
+          )}
+        </div>
+
+        {/* Course Title & Subtitle */}
+        <h3 id="course-modal-title" className="mt-3.5 font-display text-2xl font-bold text-ink sm:text-3xl">
+          {course.name}
+        </h3>
+        {course.fullName && (
+          <p className="mt-1 text-sm font-semibold text-brand">
+            {course.fullName}
+          </p>
+        )}
+
+        <p className="mt-3 text-xs sm:text-sm leading-relaxed text-muted-foreground">
+          {course.description}
+        </p>
+
+        {/* Core Modules Section */}
+        {course.modules && course.modules.length > 0 && (
+          <div className="mt-5 rounded-2xl bg-sand/60 p-4 sm:p-5 border border-border/80">
+            <div className="flex items-center gap-2 text-ink">
+              <BookOpen className="h-4 w-4 text-brand" />
+              <h4 className="font-display text-xs sm:text-sm font-bold uppercase tracking-wider text-ink">
+                Core Course Modules
+              </h4>
+            </div>
+            <p className="mt-1 text-[11px] text-muted-foreground">
+              Comprehensive curriculum &amp; practical topics covered:
+            </p>
+            <ul className="mt-3 space-y-2.5">
+              {course.modules.map((mod, idx) => (
+                <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-ink/90">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand/15 text-brand text-[11px] font-bold mt-0.5">
+                    {idx + 1}
+                  </span>
+                  <span className="leading-snug">{mod}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Lead Mentor info */}
+        {course.trainer && (
+          <div className="mt-4 flex items-center gap-3 rounded-xl bg-sand/40 p-3 border border-border/50 text-xs">
+            <GraduationCap className="h-4 w-4 text-brand shrink-0" />
+            <div className="min-w-0">
+              <span className="text-muted-foreground">
+                Lead Mentor: <strong className="text-ink">{course.trainer.name}</strong>
+                {course.trainer.credentials?.length > 0 && ` (${course.trainer.credentials.join(", ")})`}
+              </span>
+              <p className="text-[11px] text-muted-foreground/80 mt-0.5">
+                {course.trainer.experience}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Bottom CTA Actions */}
+        <div className="mt-6 flex flex-col sm:flex-row items-center gap-2.5 pt-4 border-t border-border">
+          <button
+            type="button"
+            onClick={handleEnrollWhatsApp}
+            className="w-full sm:flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-3 px-6 text-sm shadow-sm transition-all hover:shadow-md cursor-pointer active:scale-[0.99]"
+          >
+            <MessageCircle className="h-4 w-4 fill-white" /> Enroll Course
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-border px-5 py-3 text-sm font-medium text-muted-foreground hover:bg-sand transition-colors cursor-pointer"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
