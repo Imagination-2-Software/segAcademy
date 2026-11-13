@@ -410,7 +410,7 @@ export function Navbar() {
         }}
         className={`w-full px-3 sm:px-6 relative z-40 will-change-transform ${
           isNavbarVisible ? "pointer-events-auto" : "pointer-events-none"
-        } ${scrolled ? "pt-2 sm:pt-2.5" : "pt-2.5 sm:pt-3.5"}`}
+        } ${scrolled ? "pt-0.5" : "pt-0.5 sm:pt-1"}`}
       >
         <div
           className={`pointer-events-auto mx-auto max-w-[1380px] rounded-2xl transition-all duration-300 ease-out flex items-center justify-between px-3.5 sm:px-5 lg:px-6 ${
