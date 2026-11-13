@@ -321,7 +321,7 @@ export function EnquiryModal() {
                 {/* Brand Logo */}
                 <div className="flex items-center">
                   <img
-                    src="/SEGAcademy%20Training%20Workshop%20Logo.png"
+                    src="/SEGAcademy%20Training%20Workshop%20Logo.png?v=2"
                     alt="SEG Academy"
                     className="h-11 w-auto object-contain shrink-0"
                   />

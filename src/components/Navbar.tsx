@@ -44,7 +44,7 @@ export function Logo({
       aria-label={`${brand.name} home`}
     >
       <img
-        src="/SEGAcademy%20Training%20Workshop%20Logo.png"
+        src="/SEGAcademy%20Training%20Workshop%20Logo.png?v=2"
         alt="SEG Academy"
         className={`h-[58px] sm:h-[68px] md:h-[72px] lg:h-[80px] w-auto max-w-[280px] sm:max-w-[330px] md:max-w-[380px] object-contain shrink-0 transition-all hover:opacity-95 drop-shadow-xs ${
           !dark ? "rounded-xl bg-white/95 p-2 shadow-sm" : ""
