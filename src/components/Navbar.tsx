@@ -397,18 +397,18 @@ export function Navbar() {
         ref={navRef}
         className="fixed inset-x-0 top-0 z-50 pointer-events-none flex flex-col w-full"
       >
-      {/* 1. Indian Stock Market Ticker Tape (Unaffected, always remains at top) */}
-      <div className="pointer-events-auto w-full relative z-50 bg-white">
+      {/* 1. Indian Stock Market Ticker Tape (Layered below the floating 3D navbar pill) */}
+      <div className="pointer-events-auto w-full relative z-30 bg-white">
         <MarketTickerBar />
       </div>
 
-      {/* 2. Floating Glass Navbar with Smart Auto-Hide on Scroll */}
+      {/* 2. Floating Glass Navbar with Smart Auto-Hide on Scroll (Layered on top with 3D shadow over ribbon) */}
       <div
         style={{
           transition: "transform 350ms cubic-bezier(0.22, 1, 0.36, 1)",
           transform: isNavbarVisible ? "translateY(0)" : "translateY(-130%)",
         }}
-        className={`w-full px-3 sm:px-6 relative z-40 will-change-transform pt-0 -mt-2 sm:-mt-2.5 ${
+        className={`w-full px-3 sm:px-6 relative z-50 will-change-transform pt-0 -mt-1 sm:-mt-1.5 ${
           isNavbarVisible ? "pointer-events-auto" : "pointer-events-none"
         }`}
       >
