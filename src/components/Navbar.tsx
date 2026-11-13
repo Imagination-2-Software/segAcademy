@@ -37,30 +37,19 @@ export function Logo({
   showTagline?: boolean;
   dark?: boolean;
 }) {
-  const textColor = dark ? "text-[#351650]" : "text-white";
-  const taglineColor = dark ? "text-[#351650]/65" : "text-white/70";
-
   return (
     <a
       href="/"
-      className={`flex min-w-0 items-center gap-2.5 ${className}`}
+      className={`inline-flex min-w-0 items-center ${className}`}
       aria-label={`${brand.name} home`}
     >
       <img
-        src="/seg-mark.png"
-        alt="SEG Academy logo"
-        className="h-9 w-auto shrink-0 sm:h-[42px] drop-shadow-sm"
+        src="/SEGAcademy%20Training%20Workshop%20Logo.png"
+        alt="SEG Academy"
+        className={`h-10 sm:h-12 md:h-[50px] w-auto object-contain shrink-0 transition-opacity hover:opacity-90 drop-shadow-xs ${
+          !dark ? "rounded-xl bg-white/95 p-1.5 shadow-sm" : ""
+        }`}
       />
-      <span className="flex min-w-0 flex-col leading-none">
-        <span className={`font-display text-[19px] font-bold tracking-tight ${textColor} sm:text-[22px]`}>
-          SEG<span className="text-[#FF8A24]"> Academy</span>
-        </span>
-        {showTagline && (
-          <span className={`mt-0.5 truncate text-[9px] sm:text-[9.5px] font-semibold uppercase tracking-[0.16em] ${taglineColor}`}>
-            Stock Market Institute
-          </span>
-        )}
-      </span>
     </a>
   );
 }

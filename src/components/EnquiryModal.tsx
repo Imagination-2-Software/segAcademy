@@ -318,21 +318,13 @@ export function EnquiryModal() {
             {/* LEFT AREA: Light Lavender Branding & Features Panel */}
             <div className="bg-[#F7F3FC] p-6 sm:p-7 border-b md:border-b-0 md:border-r border-[#E5DDF0] flex flex-col justify-between">
               <div>
-                {/* Brand Mark */}
-                <div className="flex items-center gap-2.5">
+                {/* Brand Logo */}
+                <div className="flex items-center">
                   <img
-                    src="/seg-mark.png"
+                    src="/SEGAcademy%20Training%20Workshop%20Logo.png"
                     alt="SEG Academy"
-                    className="h-9 w-auto shrink-0"
+                    className="h-11 w-auto object-contain shrink-0"
                   />
-                  <div className="leading-none">
-                    <span className="font-display text-base font-bold text-[#351650]">
-                      SEG<span className="text-[#FF8A24]"> Academy</span>
-                    </span>
-                    <span className="block text-[9px] uppercase tracking-wider text-[#351650]/60 mt-0.5 font-medium">
-                      Est. 2017 • Varanasi
-                    </span>
-                  </div>
                 </div>
 
                 {/* Left Heading & Supporting Copy */}
