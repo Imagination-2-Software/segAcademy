@@ -46,7 +46,7 @@ export function Logo({
       <img
         src="/SEGAcademy%20Training%20Workshop%20Logo.png"
         alt="SEG Academy"
-        className={`h-12 sm:h-14 md:h-[58px] lg:h-[66px] w-auto max-w-[230px] sm:max-w-[270px] md:max-w-[310px] object-contain shrink-0 transition-all hover:opacity-95 drop-shadow-xs ${
+        className={`h-[58px] sm:h-[68px] md:h-[72px] lg:h-[80px] w-auto max-w-[280px] sm:max-w-[330px] md:max-w-[380px] object-contain shrink-0 transition-all hover:opacity-95 drop-shadow-xs ${
           !dark ? "rounded-xl bg-white/95 p-2 shadow-sm" : ""
         }`}
       />
@@ -415,8 +415,8 @@ export function Navbar() {
         <div
           className={`pointer-events-auto mx-auto max-w-[1380px] rounded-2xl transition-all duration-300 ease-out flex items-center justify-between px-3.5 sm:px-5 lg:px-6 ${
             scrolled
-              ? "h-[68px] sm:h-[72px] lg:h-[76px] bg-white/94 backdrop-blur-2xl border border-slate-200/85 shadow-[0_12px_40px_rgba(15,23,42,0.12),0_1px_3px_rgba(0,0,0,0.04)]"
-              : "h-[76px] sm:h-[82px] lg:h-[88px] bg-white/80 backdrop-blur-[20px] border border-white/85 shadow-[0_8px_32px_rgba(15,23,42,0.06),0_1px_2px_rgba(0,0,0,0.03)]"
+              ? "h-[74px] sm:h-[80px] lg:h-[86px] bg-white/94 backdrop-blur-2xl border border-slate-200/85 shadow-[0_12px_40px_rgba(15,23,42,0.12),0_1px_3px_rgba(0,0,0,0.04)]"
+              : "h-[84px] sm:h-[92px] lg:h-[98px] bg-white/80 backdrop-blur-[20px] border border-white/85 shadow-[0_8px_32px_rgba(15,23,42,0.06),0_1px_2px_rgba(0,0,0,0.03)]"
           }`}
         >
         {/* Brand Logo */}
